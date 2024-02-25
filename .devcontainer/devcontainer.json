@@ -1,0 +1,14 @@
+{
+    "name": "Flutter Dev Container",
+    "image": "jonathanortega2023/flutter_dev",
+    "customizations": {
+        "extensions": [
+            "dart-code.dart-code",
+            "dart-code.flutter"
+        ]
+    },
+    "forwardPorts": [
+        8080
+    ],
+    "postCreateCommand": "flutter doctor"
+}
