@@ -10,5 +10,10 @@
     "forwardPorts": [
         8080
     ],
-    "postCreateCommand": "flutter doctor"
+    "postCreateCommand": "flutter doctor",
+    // add "/usr/bin/android-sdk/platform-tools/adb" to the PATH
+    "runArgs": [
+        "--env",
+        "PATH=${env:PATH}:/usr/bin/android-sdk/platform-tools"
+    ]
 }
