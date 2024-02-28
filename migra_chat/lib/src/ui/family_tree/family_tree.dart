@@ -28,19 +28,39 @@ class _FamilyTreeState extends State<FamilyTree> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: null,
+        appBar: GFAppBar(
+          title: const Text('Family Tree'),
+        ),
         body: PageView.builder(
           itemBuilder: (context, index) {
+            // if on current page, display add person button
             return Center(
               child: ListView.builder(
                 itemBuilder: (context, index) {
                   if (index == 0){
-                    // Add person button
-                    return ListTile(
-                      title: Center(child: Text('Add Sibling')),
-                      onTap: () {
-                        // Implement your onTap logic here
-                      },
+                    return Padding(
+                      padding: const EdgeInsets.only(top:20.0),
+                      child: GFListTile(
+                        color: Colors.blue,
+                        radius: 50,
+                        avatar: const GFAvatar(
+                          child: Text(
+                            '+',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ),
+                        title: const Text('Add Person'),
+                        onTap: () {
+                          // Implement onTap logic here
+                        },
+                      ),
+                    );
+                  }
+                  // TODO Change to itemCount-1
+                  if (index == 4){
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom:20.0),
+                      child: FamilyTreeLeaf(person: ME),
                     );
                   }
                   return FamilyTreeLeaf(person: ME);
@@ -53,7 +73,7 @@ class _FamilyTreeState extends State<FamilyTree> {
               ),
             );
           },
-          controller: PageController(viewportFraction: 0.8),
+          controller: PageController(viewportFraction: 0.7),
         ));
   }
 }
@@ -72,10 +92,10 @@ class FamilyTreeLeaf extends StatelessWidget {
         // Example: Displaying initials as avatar
         child: Text(
           '${person.firstName[0]}${person.lastName[0]}',
-          style: TextStyle(fontSize: 20),
+          style: const TextStyle(fontSize: 20),
         ),
       ),
-      title: Text('${person.fullName}'),
+      title: Text(person.fullName),
       subTitle: Text('Age: ${person.age}'),
       // You can customize ListTile's onTap behavior here
       onTap: () {

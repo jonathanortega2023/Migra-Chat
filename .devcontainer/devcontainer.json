@@ -14,6 +14,6 @@
     // add "/usr/bin/android-sdk/platform-tools/adb" to the PATH
     "runArgs": [
         "--env",
-        "PATH=${env:PATH}:/usr/bin/android-sdk/platform-tools"
+        "PATH=${env:PATH}:/usr/lib/android-sdk/platform-tools"
     ]
 }
