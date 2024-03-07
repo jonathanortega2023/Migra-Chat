@@ -10,6 +10,7 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
+  build_runner: ^2.4.8
   country_flags: ^2.2.0
   country_pickers: ^2.0.0
   csv: ^6.0.0
@@ -19,6 +20,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   getwidget: ^4.0.0
+  json_serializable: ^6.7.1
   tflite_flutter: ^0.10.4
 
 dev_dependencies:

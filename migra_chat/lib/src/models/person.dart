@@ -1,9 +1,14 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'person.g.dart';
+
 enum Gender { male, female, nonBinary }
 
 enum Country { us, canada, mexico, other }
 
 enum USCitizenship { citizen, resident, visa, undocumented }
 
+@JsonEnum()
 enum Relationship {
   parent,
   child,
@@ -19,8 +24,9 @@ enum LivingStatus { alive, deceased }
 
 enum MaritalStatus { single, married, divorced, widowed }
 
+@JsonSerializable()
 class Person {
-  String id;
+  String uid;
   String firstName;
   String? middleName;
   String lastName;
@@ -32,9 +38,10 @@ class Person {
   Country? countryOfResidence;
   USCitizenship? usCitizenStatus;
   int? usZipCode;
-  Map<Person, Relationship> relationships;
-
+  Map<String, Relationship> relationships;
+// TODO decide to mark primary or not
   Person({
+    bool? isPrimary,
     required this.firstName,
     this.middleName,
     required this.lastName,
@@ -47,7 +54,7 @@ class Person {
     required this.usCitizenStatus,
     this.usZipCode,
     required this.relationships,
-  }) : id = _generateID(firstName, lastName, dateOfBirth);
+  }) : uid = _generateUID(firstName, lastName, dateOfBirth);
 
   String get fullName => '$firstName ${middleName ?? ''} $lastName';
   bool get isAlive => livingStatus == LivingStatus.alive;
@@ -66,10 +73,17 @@ class Person {
   bool get isUndocumented => usCitizenStatus == USCitizenship.undocumented;
   bool get isLivingInUS => countryOfResidence == Country.us;
 
-  static String _generateID(
+  void updateUID() {
+    uid = _generateUID(firstName, lastName, dateOfBirth);
+  }
+
+  static String _generateUID(
       String firstName, String lastName, DateTime dateOfBirth) {
     return '${dateOfBirth.millisecondsSinceEpoch}${firstName[0]}${lastName[0]}';
   }
+
+  factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
+  Map<String, dynamic> toJson() => _$PersonToJson(this);
 }
 
 class PrimaryPerson extends Person {

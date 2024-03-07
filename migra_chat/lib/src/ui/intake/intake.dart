@@ -89,50 +89,46 @@ class _UserIntakeState extends State<UserIntake> {
               const SizedBox(height: 20),
               Flexible(
                   child: FormBuilderRadioGroup(
-                decoration: const InputDecoration(
-                  labelText: "Gender"),
+                decoration: const InputDecoration(labelText: "Gender"),
                 name: "gender",
                 options: ["Male", "Female", "Other"]
                     .map((lang) => FormBuilderFieldOption(value: lang))
                     .toList(growable: false),
+                onChanged: (value) => setState(() {}),
               )),
               const SizedBox(height: 20),
               Flexible(
                   child:
                       // marital status radio options
                       FormBuilderRadioGroup(
-                decoration: const InputDecoration(
-                  labelText: "Marital Status"
-                ),
+                decoration: const InputDecoration(labelText: "Marital Status"),
                 name: "marital_status",
                 options: ["Single", "Married", "Divorced", "Widowed"]
                     .map((lang) => FormBuilderFieldOption(value: lang))
                     .toList(growable: false),
+                onChanged: (value) => setState(() {}),
               )),
               const SizedBox(height: 20),
               Flexible(
                 child: FormBuilderRadioGroup(
-                  decoration: const InputDecoration(
-                    labelText: "US Citizen Status"
-                ),
-                  name: "us_citizen_status",
-                  options: ["Citizen", "Resident", "Visa", "Undocumented"]
-                      .map((lang) => FormBuilderFieldOption(value: lang))
-                      .toList(growable: false),
-                ),
+                    decoration: const InputDecoration(
+                      labelText: "US Citizen Status",
+                    ),
+                    name: "us_citizen_status",
+                    options: ["Citizen", "Resident", "Visa", "Undocumented"]
+                        .map((lang) => FormBuilderFieldOption(value: lang))
+                        .toList(growable: false),
+                    onChanged: (value) => setState(() {})),
               ),
               const SizedBox(height: 20),
               Flexible(
                   child: Row(children: [
                 Flexible(
                   child: FormBuilderSwitch(
-                    name: "us_living",
-                    title: const Text("Living in the US?"),
-                    initialValue: false,
-                    onChanged: (value) {
-                      setState(() {});
-                    },
-                  ),
+                      name: "us_living",
+                      title: const Text("Living in the US?"),
+                      initialValue: false,
+                      onChanged: (value) => setState(() {})),
                 ),
                 const SizedBox(width: 20),
                 if (_formKey.currentState?.fields["us_living"]?.value == true)
@@ -174,7 +170,21 @@ class _UserIntakeState extends State<UserIntake> {
                           )
                     ],
                   )),
-              ]))
+              ])),
+              const SizedBox(height: 20),
+              if (_formKey.currentState?.fields["us_citizen_status"]?.value !=
+                      "Citizen" &&
+                  _formKey.currentState?.fields["us_living"]?.value == true)
+                Flexible(
+                    child: FormBuilderDateTimePicker(
+                  name: "date_of_entry",
+                  inputType: InputType.date,
+                  decoration: const InputDecoration(
+                    isDense: true,
+                    labelText: "Date of Entry",
+                    hintText: "01-01-2000",
+                  ),
+                )),
             ]),
           )),
     );
