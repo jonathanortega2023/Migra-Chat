@@ -26,6 +26,7 @@ enum MaritalStatus { single, married, divorced, widowed }
 
 @JsonSerializable()
 class Person {
+  bool isPrimary;
   String uid;
   String firstName;
   String? middleName;
@@ -36,12 +37,12 @@ class Person {
   DateTime? dateOfDeath;
   Gender gender;
   Country? countryOfResidence;
+  DateTime? dateOfEntry;
   USCitizenship? usCitizenStatus;
-  int? usZipCode;
+  String? usZipCode;
   Map<String, Relationship> relationships;
-// TODO decide to mark primary or not
   Person({
-    bool? isPrimary,
+    required this.isPrimary,
     required this.firstName,
     this.middleName,
     required this.lastName,
@@ -54,7 +55,11 @@ class Person {
     required this.usCitizenStatus,
     this.usZipCode,
     required this.relationships,
-  }) : uid = _generateUID(firstName, lastName, dateOfBirth);
+  })  : assert(firstName.trim().isNotEmpty && lastName.trim().isNotEmpty),
+        assert(dateOfBirth.isBefore(DateTime.now()) && dateOfBirth.year > 1900),
+        assert(dateOfDeath == null || dateOfDeath.isAfter(dateOfBirth)),
+        assert(usZipCode == null || usZipCode.toString().length == 5),
+        uid = _generateUID(firstName, lastName, dateOfBirth);
 
   String get fullName => '$firstName ${middleName ?? ''} $lastName';
   bool get isAlive => livingStatus == LivingStatus.alive;
@@ -65,7 +70,7 @@ class Person {
   bool get isSenior => age >= 65;
   int get numDependents =>
       relationships.values.where((r) => r == Relationship.child).length;
-  int? get zipCode => usZipCode;
+  String? get zipCode => usZipCode;
   bool get hasDependents => relationships.values.contains(Relationship.child);
   bool get isUSCitizen => usCitizenStatus == USCitizenship.citizen;
   bool get isResident => usCitizenStatus == USCitizenship.resident;
@@ -84,21 +89,4 @@ class Person {
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
   Map<String, dynamic> toJson() => _$PersonToJson(this);
-}
-
-class PrimaryPerson extends Person {
-  PrimaryPerson({
-    required super.firstName,
-    super.middleName,
-    required super.lastName,
-    required super.maritalStatus,
-    required super.livingStatus,
-    required super.dateOfBirth,
-    super.dateOfDeath,
-    required super.gender,
-    required super.countryOfResidence,
-    super.usCitizenStatus,
-    super.usZipCode,
-    required super.relationships,
-  });
 }

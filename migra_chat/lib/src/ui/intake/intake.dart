@@ -4,6 +4,26 @@ import 'package:getwidget/getwidget.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:migra_chat/src/data/loaders.dart';
+import '../widgets.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import '../../models/person.dart';
+import '../../data/services.dart';
+
+// ignore: non_constant_identifier_names
+final Person ME = Person(
+  isPrimary: true,
+  firstName: "John",
+  middleName: "Doe",
+  lastName: "Smith",
+  gender: Gender.male,
+  usCitizenStatus: USCitizenship.citizen,
+  countryOfResidence: Country.us,
+  usZipCode: '60647',
+  livingStatus: LivingStatus.alive,
+  maritalStatus: MaritalStatus.married,
+  dateOfBirth: DateTime(1998, 5, 29),
+  relationships: {},
+);
 
 class UserIntake extends StatefulWidget {
   const UserIntake({super.key});
@@ -11,12 +31,23 @@ class UserIntake extends StatefulWidget {
   State<UserIntake> createState() => _UserIntakeState();
 }
 
-// const NAME_VALIDATORS = [
-//   FormBuilderValidators.required(),
-//   FormBuilderValidators.minLength(2),
-//   FormBuilderValidators.maxLength(50),
+final nameValidators = FormBuilderValidators.compose([
+  FormBuilderValidators.required(),
+  FormBuilderValidators.minLength(1),
+  FormBuilderValidators.maxLength(50),
+  FormBuilderValidators.match(r'^[a-zA-Z ]*$'),
+]);
 
-// ];
+final zipValidators = FormBuilderValidators.compose([
+  FormBuilderValidators.required(),
+  FormBuilderValidators.equalLength(5),
+  FormBuilderValidators.match(r'^[0-9]*$'),
+]);
+
+String _cleanString(String value) {
+  // use regex to remove extra whitespace
+  return value.trim().replaceAll(RegExp(r'\s+'), ' ');
+}
 
 class _UserIntakeState extends State<UserIntake> {
   List<(String, String)> countries = [];
@@ -25,6 +56,10 @@ class _UserIntakeState extends State<UserIntake> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
+      appBar: GFAppBar(
+        title: const Text('Intake'),
+      ),
       body: FormBuilder(
           key: _formKey,
           child: Padding(
@@ -35,6 +70,7 @@ class _UserIntakeState extends State<UserIntake> {
                   children: [
                     Flexible(
                       child: FormBuilderTextField(
+                        validator: nameValidators,
                         name: "first_name",
                         decoration: const InputDecoration(
                           labelText: "First Name",
@@ -51,7 +87,7 @@ class _UserIntakeState extends State<UserIntake> {
                         name: "middle_name",
                         decoration: const InputDecoration(
                           labelText: "Middle Name",
-                          hintText: "Richard",
+                          hintText: "Doe",
                         ),
                       ),
                     ),
@@ -66,7 +102,7 @@ class _UserIntakeState extends State<UserIntake> {
                       name: "last_name",
                       decoration: const InputDecoration(
                         labelText: "Last Name",
-                        hintText: "Doe",
+                        hintText: "Smith",
                       ),
                     ),
                   ),
@@ -75,6 +111,8 @@ class _UserIntakeState extends State<UserIntake> {
                   ),
                   Flexible(
                     child: FormBuilderDateTimePicker(
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
                       name: "date_of_birth",
                       inputType: InputType.both,
                       decoration: const InputDecoration(
@@ -177,6 +215,8 @@ class _UserIntakeState extends State<UserIntake> {
                   _formKey.currentState?.fields["us_living"]?.value == true)
                 Flexible(
                     child: FormBuilderDateTimePicker(
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
                   name: "date_of_entry",
                   inputType: InputType.date,
                   decoration: const InputDecoration(
@@ -185,6 +225,16 @@ class _UserIntakeState extends State<UserIntake> {
                     hintText: "01-01-2000",
                   ),
                 )),
+              const SizedBox(height: 20),
+              Flexible(child: GFButton(onPressed: () async {
+                // TODO Actually implement this
+                print(await readJSON('users.json'));
+                print("Read from users.json!");
+                if (_formKey.currentState?.saveAndValidate() == true) {
+                  final data = _formKey.currentState?.value;
+                  print(data);
+                }
+              }))
             ]),
           )),
     );

@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
           ],
           supportedLocales: const [
             Locale('en', ''), // English, no country code
+            Locale('es', ''), // Spanish, no country code
           ],
 
           // Use AppLocalizations to configure the correct application title
@@ -79,6 +80,10 @@ class MyApp extends StatelessWidget {
                 }
               },
             );
+          },
+          routes: {
+            '/intake': (context) => const SafeArea(child: UserIntake()),
+            '/family_tree': (context) => const SafeArea(child: FamilyTree()),
           },
           home: const SafeArea(child: UserIntake()),
         );

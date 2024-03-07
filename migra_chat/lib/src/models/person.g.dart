@@ -7,6 +7,7 @@ part of 'person.dart';
 // **************************************************************************
 
 Person _$PersonFromJson(Map<String, dynamic> json) => Person(
+      isPrimary: json['isPrimary'] as bool,
       firstName: json['firstName'] as String,
       middleName: json['middleName'] as String?,
       lastName: json['lastName'] as String,
@@ -22,13 +23,14 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
           $enumDecodeNullable(_$CountryEnumMap, json['countryOfResidence']),
       usCitizenStatus:
           $enumDecodeNullable(_$USCitizenshipEnumMap, json['usCitizenStatus']),
-      usZipCode: json['usZipCode'] as int?,
+      usZipCode: json['usZipCode'] as String?,
       relationships: (json['relationships'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, $enumDecode(_$RelationshipEnumMap, e)),
       ),
     )..uid = json['uid'] as String;
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
+      'isPrimary': instance.isPrimary,
       'uid': instance.uid,
       'firstName': instance.firstName,
       'middleName': instance.middleName,

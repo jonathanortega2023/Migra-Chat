@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import '../../models/person.dart';
+import '../widgets.dart';
 import 'package:getwidget/getwidget.dart';
 
 // ignore: non_constant_identifier_names
-final Person ME = PrimaryPerson(
+final Person ME = Person(
+  isPrimary: true,
   firstName: "John",
   middleName: "Doe",
   lastName: "Smith",
   gender: Gender.male,
   usCitizenStatus: USCitizenship.citizen,
   countryOfResidence: Country.us,
-  usZipCode: 60647,
+  usZipCode: '60647',
   livingStatus: LivingStatus.alive,
   maritalStatus: MaritalStatus.married,
   dateOfBirth: DateTime(1998, 5, 29),
@@ -26,8 +28,14 @@ class FamilyTree extends StatefulWidget {
 
 class _FamilyTreeState extends State<FamilyTree> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+        drawer: const AppDrawer(),
         appBar: GFAppBar(
           title: const Text('Family Tree'),
         ),
@@ -37,9 +45,9 @@ class _FamilyTreeState extends State<FamilyTree> {
             return Center(
               child: ListView.builder(
                 itemBuilder: (context, index) {
-                  if (index == 0){
+                  if (index == 0) {
                     return Padding(
-                      padding: const EdgeInsets.only(top:20.0),
+                      padding: const EdgeInsets.only(top: 20.0),
                       child: GFListTile(
                         color: Colors.blue,
                         radius: 50,
@@ -57,9 +65,9 @@ class _FamilyTreeState extends State<FamilyTree> {
                     );
                   }
                   // TODO Change to itemCount-1
-                  if (index == 4){
+                  if (index == 4) {
                     return Padding(
-                      padding: const EdgeInsets.only(bottom:20.0),
+                      padding: const EdgeInsets.only(bottom: 20.0),
                       child: FamilyTreeLeaf(person: ME),
                     );
                   }
