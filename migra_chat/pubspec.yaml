@@ -19,6 +19,7 @@ dependencies:
   flutter_form_builder: ^9.2.1
   flutter_localizations:
     sdk: flutter
+  flutter_secure_storage: ^4.2.1
   form_builder_validators: ^9.1.0
   getwidget: ^4.0.0
   json_serializable: ^6.7.1

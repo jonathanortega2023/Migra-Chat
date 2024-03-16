@@ -226,15 +226,31 @@ class _UserIntakeState extends State<UserIntake> {
                   ),
                 )),
               const SizedBox(height: 20),
-              Flexible(child: GFButton(onPressed: () async {
-                // TODO Actually implement this
-                print(await readJSON('users.json'));
-                print("Read from users.json!");
-                if (_formKey.currentState?.saveAndValidate() == true) {
-                  final data = _formKey.currentState?.value;
-                  print(data);
-                }
-              }))
+              Flexible(
+                  child: Row(
+                children: [
+                  GFButton(
+                      child: const Text("Read Users"),
+                      onPressed: () async {
+                        // TODO Actually implement this
+                        print(await readJSON('users.json'));
+                        print("Read from users.json!");
+                        if (_formKey.currentState?.saveAndValidate() == true) {
+                          final data = _formKey.currentState?.value;
+                          print(data);
+                        }
+                      }),
+                  const SizedBox(width: 20),
+                  GFButton(
+                    child: const Text("Save User"),
+                    onPressed: () async {
+                      // TODO Actually implement this
+                      await writeToJSON('users.json', ME.toJson());
+                      print("Wrote to users.json!");
+                    },
+                  ),
+                ],
+              ))
             ]),
           )),
     );
