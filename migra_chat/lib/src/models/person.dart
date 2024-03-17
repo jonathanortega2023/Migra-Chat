@@ -1,4 +1,7 @@
+// on modification, run command: `dart run build_runner build`
+
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 
 part 'person.g.dart';
 
@@ -8,7 +11,6 @@ enum Country { us, canada, mexico, other }
 
 enum USCitizenship { citizen, resident, visa, undocumented }
 
-@JsonEnum()
 enum Relationship {
   parent,
   child,
@@ -59,7 +61,7 @@ class Person {
         assert(dateOfBirth.isBefore(DateTime.now()) && dateOfBirth.year > 1900),
         assert(dateOfDeath == null || dateOfDeath.isAfter(dateOfBirth)),
         assert(usZipCode == null || usZipCode.toString().length == 5),
-        uid = _generateUID(firstName, lastName, dateOfBirth);
+        uid = const Uuid().v4();
 
   String get fullName => '$firstName ${middleName ?? ''} $lastName';
   bool get isAlive => livingStatus == LivingStatus.alive;
@@ -77,15 +79,6 @@ class Person {
   bool get isVisaHolder => usCitizenStatus == USCitizenship.visa;
   bool get isUndocumented => usCitizenStatus == USCitizenship.undocumented;
   bool get isLivingInUS => countryOfResidence == Country.us;
-
-  void updateUID() {
-    uid = _generateUID(firstName, lastName, dateOfBirth);
-  }
-
-  static String _generateUID(
-      String firstName, String lastName, DateTime dateOfBirth) {
-    return '${dateOfBirth.millisecondsSinceEpoch}${firstName[0]}${lastName[0]}';
-  }
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
   Map<String, dynamic> toJson() => _$PersonToJson(this);

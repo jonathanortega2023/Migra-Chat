@@ -22,28 +22,34 @@ Future<List<List<dynamic>>> readCSV(String path, {String? eol = '\n'}) async {
   return csvTable;
 }
 
-// TODO ponder if this needs to be abstract or not
-
-Future<void> writeToJSON(String fileName, Map<String, dynamic> jsonData) async {
+void writeToJSON(String fileName, Map<String, dynamic> jsonData,
+    {bool secure = false}) async {
   final directory = await getApplicationDocumentsDirectory();
   final file = File('${directory.path}/$fileName');
   await file.writeAsString(jsonEncode(jsonData));
-  await storage.write(key: fileName, value: file.path);
-  print(jsonData);
-  print('Wrote to ${file.path}');
+  if (secure) {
+    await storage.write(key: fileName, value: file.path);
+  }
 }
 
-dynamic readJSON(String fileName) async {
+dynamic readJSON(String fileName, {bool secure = false}) async {
+  if (!secure) {
+    final directory = await getApplicationDocumentsDirectory();
+    final file = File('${directory.path}/$fileName');
+    if (!await file.exists()) {
+      throw Exception('File does not exist');
+    }
+    final jsonData = await file.readAsString();
+    return jsonDecode(jsonData);
+  }
   final filePath = await storage.read(key: fileName);
   if (filePath == null) {
-    return null;
+    throw Exception('Filepath not found in secure storage');
   }
   final file = File(filePath);
   if (!await file.exists()) {
-    return null;
+    throw Exception('File does not exist');
   }
   final jsonData = await file.readAsString();
-  print('Read from ${file.path}');
-  print(jsonData);
   return jsonDecode(jsonData);
 }

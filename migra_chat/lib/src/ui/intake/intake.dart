@@ -25,6 +25,15 @@ final Person ME = Person(
   relationships: {},
 );
 
+const List<String> demographics = [
+  "Homeless",
+  "Veteran",
+  "Disabled",
+  "LGBTQ+",
+  "Refugee",
+  "Asylee",
+];
+
 class UserIntake extends StatefulWidget {
   const UserIntake({super.key});
   @override
@@ -33,7 +42,7 @@ class UserIntake extends StatefulWidget {
 
 final nameValidators = FormBuilderValidators.compose([
   FormBuilderValidators.required(),
-  FormBuilderValidators.minLength(1),
+  FormBuilderValidators.minLength(2),
   FormBuilderValidators.maxLength(50),
   FormBuilderValidators.match(r'^[a-zA-Z ]*$'),
 ]);
@@ -70,6 +79,7 @@ class _UserIntakeState extends State<UserIntake> {
                   children: [
                     Flexible(
                       child: FormBuilderTextField(
+                        keyboardType: TextInputType.name,
                         validator: nameValidators,
                         name: "first_name",
                         decoration: const InputDecoration(
@@ -84,10 +94,11 @@ class _UserIntakeState extends State<UserIntake> {
                     ),
                     Flexible(
                       child: FormBuilderTextField(
-                        name: "middle_name",
+                        keyboardType: TextInputType.name,
+                        name: "last_name",
                         decoration: const InputDecoration(
-                          labelText: "Middle Name",
-                          hintText: "Doe",
+                          labelText: "Last Name",
+                          hintText: "Smith",
                         ),
                       ),
                     ),
@@ -98,43 +109,45 @@ class _UserIntakeState extends State<UserIntake> {
                   child: Row(
                 children: [
                   Flexible(
-                    child: FormBuilderTextField(
-                      name: "last_name",
-                      decoration: const InputDecoration(
-                        labelText: "Last Name",
-                        hintText: "Smith",
-                      ),
-                    ),
-                  ),
+                      flex: 2,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: FormBuilderRadioGroup(
+                          decoration: const InputDecoration(
+                              isDense: true,
+                              labelText: "Gender",
+                              contentPadding: EdgeInsets.all(0)),
+                          name: "gender",
+                          options: ["Male", "Female", "Other"]
+                              .map(
+                                  (lang) => FormBuilderFieldOption(value: lang))
+                              .toList(growable: false),
+                          onChanged: (value) => setState(() {}),
+                        ),
+                      )),
                   const SizedBox(
                     width: 20,
                   ),
                   Flexible(
-                    child: FormBuilderDateTimePicker(
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                      name: "date_of_birth",
-                      inputType: InputType.both,
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        labelText: "Date of Birth",
-                        hintText: "01-01-2000",
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: FormBuilderDateTimePicker(
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                        name: "date_of_birth",
+                        inputType: InputType.date,
+                        decoration: const InputDecoration(
+                          isDense: true,
+                          labelText: "Date of Birth",
+                          hintText: "01-01-2000",
+                          contentPadding: EdgeInsets.all(0),
+                        ),
                       ),
                     ),
                   ),
                 ],
               )),
-              const SizedBox(height: 20),
-              Flexible(
-                  child: FormBuilderRadioGroup(
-                decoration: const InputDecoration(labelText: "Gender"),
-                name: "gender",
-                options: ["Male", "Female", "Other"]
-                    .map((lang) => FormBuilderFieldOption(value: lang))
-                    .toList(growable: false),
-                onChanged: (value) => setState(() {}),
-              )),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Flexible(
                   child:
                       // marital status radio options
@@ -146,7 +159,7 @@ class _UserIntakeState extends State<UserIntake> {
                     .toList(growable: false),
                 onChanged: (value) => setState(() {}),
               )),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Flexible(
                 child: FormBuilderRadioGroup(
                     decoration: const InputDecoration(
@@ -158,11 +171,14 @@ class _UserIntakeState extends State<UserIntake> {
                         .toList(growable: false),
                     onChanged: (value) => setState(() {})),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Flexible(
                   child: Row(children: [
                 Flexible(
                   child: FormBuilderSwitch(
+                      decoration: InputDecoration(
+                        isDense: true,
+                      ),
                       name: "us_living",
                       title: const Text("Living in the US?"),
                       initialValue: false,
@@ -172,6 +188,7 @@ class _UserIntakeState extends State<UserIntake> {
                 if (_formKey.currentState?.fields["us_living"]?.value == true)
                   Flexible(
                       child: FormBuilderTextField(
+                    keyboardType: TextInputType.number,
                     name: "us_zip",
                     decoration: const InputDecoration(
                       labelText: "US Zip Code",
@@ -194,7 +211,7 @@ class _UserIntakeState extends State<UserIntake> {
                               children: [
                                 CountryFlag.fromCountryCode(
                                   country.$2,
-                                  height: 20,
+                                  height: 10,
                                   width: 30,
                                 ),
                                 const SizedBox(width: 10),
@@ -209,7 +226,6 @@ class _UserIntakeState extends State<UserIntake> {
                     ],
                   )),
               ])),
-              const SizedBox(height: 20),
               if (_formKey.currentState?.fields["us_citizen_status"]?.value !=
                       "Citizen" &&
                   _formKey.currentState?.fields["us_living"]?.value == true)
@@ -225,32 +241,18 @@ class _UserIntakeState extends State<UserIntake> {
                     hintText: "01-01-2000",
                   ),
                 )),
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Flexible(
-                  child: Row(
-                children: [
-                  GFButton(
-                      child: const Text("Read Users"),
-                      onPressed: () async {
-                        // TODO Actually implement this
-                        print(await readJSON('users.json'));
-                        print("Read from users.json!");
-                        if (_formKey.currentState?.saveAndValidate() == true) {
-                          final data = _formKey.currentState?.value;
-                          print(data);
-                        }
-                      }),
-                  const SizedBox(width: 20),
-                  GFButton(
-                    child: const Text("Save User"),
-                    onPressed: () async {
-                      // TODO Actually implement this
-                      await writeToJSON('users.json', ME.toJson());
-                      print("Wrote to users.json!");
-                    },
-                  ),
-                ],
-              ))
+                  flex: 2,
+                  child: FormBuilderCheckboxGroup(
+                    decoration: const InputDecoration(
+                      labelText: "Additional Demographics",
+                    ),
+                    name: 'demographics',
+                    options: demographics
+                        .map((lang) => FormBuilderFieldOption(value: lang))
+                        .toList(growable: false),
+                  ))
             ]),
           )),
     );

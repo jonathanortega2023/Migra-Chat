@@ -27,7 +27,11 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       relationships: (json['relationships'] as Map<String, dynamic>).map(
         (k, e) => MapEntry(k, $enumDecode(_$RelationshipEnumMap, e)),
       ),
-    )..uid = json['uid'] as String;
+    )
+      ..uid = json['uid'] as String
+      ..dateOfEntry = json['dateOfEntry'] == null
+          ? null
+          : DateTime.parse(json['dateOfEntry'] as String);
 
 Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'isPrimary': instance.isPrimary,
@@ -41,6 +45,7 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'dateOfDeath': instance.dateOfDeath?.toIso8601String(),
       'gender': _$GenderEnumMap[instance.gender]!,
       'countryOfResidence': _$CountryEnumMap[instance.countryOfResidence],
+      'dateOfEntry': instance.dateOfEntry?.toIso8601String(),
       'usCitizenStatus': _$USCitizenshipEnumMap[instance.usCitizenStatus],
       'usZipCode': instance.usZipCode,
       'relationships': instance.relationships
