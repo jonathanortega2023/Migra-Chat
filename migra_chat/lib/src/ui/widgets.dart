@@ -22,6 +22,12 @@ class AppDrawer extends StatelessWidget {
             Navigator.popAndPushNamed(context, '/family_tree');
           },
         ),
+        GFListTile(
+          title: const Text('Chat'),
+          onTap: () {
+            Navigator.popAndPushNamed(context, '/test_tree');
+          },
+        ),
       ],
     ));
   }

@@ -8,6 +8,7 @@ import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 import '../src/ui/family_tree/family_tree.dart';
 import '../src/ui/intake/intake.dart';
+import '../src/ui/tree_testing/tree_testing.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -84,6 +85,7 @@ class MyApp extends StatelessWidget {
           routes: {
             '/intake': (context) => const SafeArea(child: UserIntake()),
             '/family_tree': (context) => const SafeArea(child: FamilyTree()),
+            '/test_tree': (context) => SafeArea(child: FamilyTreeView()),
           },
           home: const SafeArea(child: UserIntake()),
         );

@@ -22,6 +22,7 @@ dependencies:
   flutter_secure_storage: ^4.2.1
   form_builder_validators: ^9.1.0
   getwidget: ^4.0.0
+  graphview: ^1.2.0
   json_annotation: ^4.8.1
   json_serializable: ^6.7.1
   path_provider: ^2.1.2
