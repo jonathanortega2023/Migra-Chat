@@ -79,6 +79,9 @@ class Person {
   bool get isVisaHolder => usCitizenStatus == USCitizenship.visa;
   bool get isUndocumented => usCitizenStatus == USCitizenship.undocumented;
   bool get isLivingInUS => countryOfResidence == Country.us;
+  // TODO Think about this
+  bool get isMarried => maritalStatus == MaritalStatus.married;
+  bool get hasSpouse => relationships.values.contains(Relationship.spouse);
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
   Map<String, dynamic> toJson() => _$PersonToJson(this);

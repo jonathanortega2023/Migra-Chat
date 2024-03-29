@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
+import 'package:vector_math/vector_math_64.dart' show Matrix4;
 
 class FamilyTreeView extends StatefulWidget {
   @override
@@ -49,6 +50,9 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
       ..orientation = BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT;
   }
 
+  TransformationController viewerTransformerController =
+      TransformationController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,6 +62,22 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
         children: [
           Expanded(
             child: InteractiveViewer(
+              onInteractionStart: (details) {
+                print('Start: ${details}');
+              },
+              onInteractionEnd: (details) {
+                print('End: ${details}');
+              },
+              onInteractionUpdate: (details) {
+                print('Update: ${details}');
+                viewerTransformerController.value = Matrix4.identity()
+                  ..translate(
+                      details.localFocalPoint.dx, details.localFocalPoint.dy)
+                  ..translate(
+                      -details.localFocalPoint.dx, -details.localFocalPoint.dy);
+              },
+              scaleEnabled: false,
+              transformationController: viewerTransformerController,
               constrained: false,
               boundaryMargin: EdgeInsets.all(50),
               minScale: 0.01,
