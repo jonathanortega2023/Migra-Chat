@@ -29,6 +29,8 @@ dependencies:
   tflite_flutter: ^0.10.4
   uuid: ^4.3.3
   vector_math: ^2.1.4
+  flutter_markdown: ^0.6.22+1
+  langchain: ^0.4.2
 
 dev_dependencies:
   flutter_test:
