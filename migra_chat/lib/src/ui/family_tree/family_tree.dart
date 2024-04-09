@@ -1,114 +1,117 @@
 import 'package:flutter/material.dart';
-import '../../models/person.dart';
-import '../widgets.dart';
-import 'package:getwidget/getwidget.dart';
 
-// ignore: non_constant_identifier_names
-final Person ME = Person(
-  isPrimary: true,
-  firstName: "John",
-  middleName: "Doe",
-  lastName: "Smith",
-  gender: Gender.male,
-  usCitizenStatus: USCitizenship.citizen,
-  countryOfResidence: Country.us,
-  usZipCode: '60647',
-  livingStatus: LivingStatus.alive,
-  maritalStatus: MaritalStatus.married,
-  dateOfBirth: DateTime(1998, 5, 29),
-  relationships: {},
-);
-
-class FamilyTree extends StatefulWidget {
-  const FamilyTree({super.key});
-
-  @override
-  State<FamilyTree> createState() => _FamilyTreeState();
+void main() {
+  runApp(MyApp());
 }
 
-class _FamilyTreeState extends State<FamilyTree> {
+class Person {
+  final String name;
+  final List<Person>? children;
+  final Person? spouse;
+
+  Person({required this.name, this.children, this.spouse});
+}
+
+final List<Person> people = [
+  Person(name: 'Roger Pate', children: [
+    Person(name: 'Ryan Pate'),
+    Person(name: 'Larissa Pate'),
+  ]),
+  Person(name: 'Karen Pate', children: [
+    Person(name: 'Ryan Pate'),
+    Person(name: 'Mike Something'),
+    Person(name: 'Chelsea Holdemann', children: [
+      Person(name: 'Tessa Holdemann'),
+    ])
+  ]),
+];
+
+class MyApp extends StatelessWidget {
   @override
-  void initState() {
-    super.initState();
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Family Tree',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: FamilyTreePage(),
+    );
   }
+}
+
+class FamilyTreePage extends StatelessWidget {
+  final List<Person> familyMembers = [
+    Person(name: 'Roger Pate', children: [
+      Person(name: 'Ryan Pate'),
+      Person(name: 'Larissa Pate'),
+    ]),
+    Person(name: 'Karen Pate', children: [
+      Person(name: 'Ryan Pate'),
+      Person(name: 'Mike Something'),
+      Person(name: 'Chelsea Holdemann', children: [
+        Person(name: 'Tessa Holdemann'),
+      ])
+    ]),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawer: const AppDrawer(),
-        appBar: GFAppBar(
-          title: const Text('Family Tree'),
-        ),
-        body: PageView.builder(
-          itemBuilder: (context, index) {
-            // if on current page, display add person button
-            return Center(
-              child: ListView.builder(
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Padding(
-                      padding: const EdgeInsets.only(top: 20.0),
-                      child: GFListTile(
-                        color: Colors.blue,
-                        radius: 50,
-                        avatar: const GFAvatar(
-                          child: Text(
-                            '+',
-                            style: TextStyle(fontSize: 20),
-                          ),
-                        ),
-                        title: const Text('Add Person'),
-                        onTap: () {
-                          // Implement onTap logic here
-                        },
-                      ),
-                    );
-                  }
-                  // TODO Change to itemCount-1
-                  if (index == 4) {
-                    return Padding(
-                      padding: const EdgeInsets.only(bottom: 20.0),
-                      child: FamilyTreeLeaf(person: ME),
-                    );
-                  }
-                  return FamilyTreeLeaf(person: ME);
-                  return ListTile(
-                    title: Center(child: Text('Person $index')),
-                  );
-                },
-                shrinkWrap: true,
-                itemCount: 5,
-              ),
-            );
-          },
-          controller: PageController(viewportFraction: 0.7),
-        ));
+      appBar: AppBar(
+        title: Text('Family Tree'),
+      ),
+      body: PageView.builder(
+        itemCount: familyMembers.length,
+        itemBuilder: (context, index) {
+          return FamilyMemberTile(familyMember: familyMembers[index]);
+        },
+      ),
+    );
   }
 }
 
-class FamilyTreeLeaf extends StatelessWidget {
-  final Person person;
+class FamilyMemberTile extends StatelessWidget {
+  final Person familyMember;
 
-  const FamilyTreeLeaf({super.key, required this.person});
+  FamilyMemberTile({required this.familyMember});
 
   @override
   Widget build(BuildContext context) {
-    return GFListTile(
-      color: Colors.blue,
-      radius: 50,
-      avatar: GFAvatar(
-        // Example: Displaying initials as avatar
-        child: Text(
-          '${person.firstName[0]}${person.lastName[0]}',
-          style: const TextStyle(fontSize: 20),
+    return CustomPaint(
+      painter: TreePainter(familyMember: familyMember),
+      child: Container(
+        width: 300.0,
+        height: 300.0,
+        color: Colors.white,
+        child: Center(
+          child: Text(familyMember.name),
         ),
       ),
-      title: Text(person.fullName),
-      subTitle: Text('Age: ${person.age}'),
-      // You can customize ListTile's onTap behavior here
-      onTap: () {
-        // Implement your onTap logic here
-      },
     );
+  }
+}
+
+class TreePainter extends CustomPainter {
+  final Person familyMember;
+
+  TreePainter({required this.familyMember});
+
+  @override
+  void paint(Canvas canvas, Size size) {}
+
+  void paintText(Canvas canvas, Offset offset, String text) {
+    final textStyle = TextStyle(color: Colors.black, fontSize: 16.0);
+    final TextSpan span = TextSpan(style: textStyle, text: text);
+    final textPainter = TextPainter(
+      text: span,
+      textDirection: TextDirection.ltr,
+    );
+    textPainter.layout();
+    textPainter.paint(canvas, offset);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return false;
   }
 }
