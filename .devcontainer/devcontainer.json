@@ -4,13 +4,11 @@
     "customizations": {
         "extensions": [
             "dart-code.dart-code",
-            "dart-code.flutter"
+            "dart-code.flutter",
+            "ms-toolsai.jupyter",
+            "ms-python.python"
         ]
     },
-    "forwardPorts": [
-        8080
-    ],
-    "postCreateCommand": "flutter doctor",
     // add "/usr/bin/android-sdk/platform-tools/adb" to the PATH
     "runArgs": [
         "--env",
