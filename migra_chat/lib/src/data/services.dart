@@ -23,9 +23,15 @@ Future<List<List<dynamic>>> readCSV(String path, {String? eol = '\n'}) async {
 }
 
 void writeToJSON(String fileName, Map<String, dynamic> jsonData,
-    {bool secure = false}) async {
-  final directory = await getApplicationDocumentsDirectory();
+    {bool secure = false, String? filePath}) async {
+  late Directory directory;
+  if (filePath == null) {
+    directory = await getApplicationDocumentsDirectory();
+  } else {
+    directory = Directory(filePath);
+  }
   final file = File('${directory.path}/$fileName');
+
   await file.writeAsString(jsonEncode(jsonData));
   if (secure) {
     await storage.write(key: fileName, value: file.path);

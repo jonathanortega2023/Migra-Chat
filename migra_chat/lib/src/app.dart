@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart' as AppLocalizations;
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:migra_chat/src/ui/chat/chat.dart';
 import 'package:migra_chat/src/ui/tree_painting/tree_painting.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
@@ -90,6 +91,7 @@ class MyApp extends StatelessWidget {
             '/test_tree': (context) => SafeArea(child: FamilyTreeView()),
             '/landing': (context) => const SafeArea(child: LandingPage()),
             '/painting': (context) => TreePainting(),
+            '/chat': (context) => const SafeArea(child: ChatPage()),
           },
           home: const SafeArea(child: UserIntake()),
         );

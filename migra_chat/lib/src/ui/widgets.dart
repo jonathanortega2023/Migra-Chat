@@ -39,7 +39,13 @@ class AppDrawer extends StatelessWidget {
           onTap: () {
             Navigator.popAndPushNamed(context, '/painting');
           },
-        )
+        ),
+        GFListTile(
+          title: const Text('Chat'),
+          onTap: () {
+            Navigator.popAndPushNamed(context, '/chat');
+          },
+        ),
       ],
     ));
   }
