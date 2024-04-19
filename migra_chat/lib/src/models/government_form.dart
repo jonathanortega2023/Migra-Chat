@@ -30,3 +30,5 @@ class ImmigrationForm {
             instructionsURL.isScheme('https') ||
             instructionsURL.isScheme('http'));
 }
+
+// TODO ponder subclass implementation for progress/processed

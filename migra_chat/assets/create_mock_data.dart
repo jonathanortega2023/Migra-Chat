@@ -1,4 +1,4 @@
-import '/workspaces/MigraChat/migra_chat/lib/src/models/person.dart';
+import 'package:migra_chat/src/models/person.dart';
 import 'dart:io';
 import 'dart:convert';
 

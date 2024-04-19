@@ -95,7 +95,7 @@ class FormAccordion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GFAccordion(
-      title: formInfo.codeName + ' | ' + formInfo.fullName,
+      title: '${formInfo.codeName} | ${formInfo.fullName}',
       contentChild: Column(
         children: [
           Text(formInfo.shortDescription),
@@ -108,12 +108,55 @@ class FormAccordion extends StatelessWidget {
               ),
               GFButton(
                 onPressed: () {},
+                text: 'Add to TODO',
+                icon: const Icon(Icons.download),
+              ),
+              GFButton(
+                onPressed: () {},
                 text: 'Start Form',
                 icon: const Icon(Icons.arrow_forward),
               ),
             ],
           )
         ],
+      ),
+    );
+  }
+}
+
+class TODOFormTile extends StatelessWidget {
+  final ImmigrationForm formInfo;
+  const TODOFormTile({super.key, required this.formInfo});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('${formInfo.codeName} | ${formInfo.fullName}'),
+      subtitle: Text('Last Modified: ${DateTime.now()}'),
+      trailing: GFButton(
+        onPressed: () {},
+        text: 'Edit',
+        icon: const Icon(Icons.edit),
+      ),
+    );
+  }
+}
+
+// TODO look into the limitations of what app can do
+class ProcessedFormTile extends StatelessWidget {
+  final ImmigrationForm formInfo;
+  const ProcessedFormTile({super.key, required this.formInfo});
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text('${formInfo.codeName} | ${formInfo.fullName}'),
+      subtitle:
+          Text('Modified: ${DateTime.now()} | Processed: ${DateTime.now()}'),
+      trailing: GFButton(
+        onPressed: () {},
+        text: 'View',
+        icon: const Icon(Icons.remove_red_eye),
       ),
     );
   }
