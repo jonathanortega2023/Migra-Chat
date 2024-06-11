@@ -52,6 +52,18 @@ class AppDrawer extends StatelessWidget {
             Navigator.popAndPushNamed(context, '/forms');
           },
         ),
+        GFListTile(
+          title: const Text('PDF Edit'),
+          onTap: () {
+            Navigator.popAndPushNamed(context, '/pdf_edit');
+          },
+        ),
+        GFListTile(
+          title: const Text('Tree Mockup'),
+          onTap: () {
+            Navigator.popAndPushNamed(context, '/tree_mockup');
+          },
+        ),
       ],
     ));
   }

@@ -32,17 +32,6 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  // void _handleMessageTap(BuildContext _, types.Message message) async {
-  //   if (message is! types.FileMessage) {
-  //     return;
-  //   }
-  //   var localPath = message.uri;
-  //   if (!message.uri.startsWith('http')) {
-  //     await OpenFilex.open(localPath);
-  //   }
-  //   // Handle local file opening if necessary
-  // }
-
   void _handlePreviewDataFetched(
     types.TextMessage message,
     types.PreviewData previewData,
@@ -95,9 +84,21 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
+  TextEditingController textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Chat(
+          // hack to make the send button work on 3rd party keyboards
+          inputOptions: InputOptions(
+            onTextChanged: (text) {
+              setState(() {
+                textController.text = text;
+              });
+            },
+            textEditingController: textController,
+          ),
+
           messages: _messages,
           // onMessageTap: _handleMessageTap,
           onPreviewDataFetched: _handlePreviewDataFetched,

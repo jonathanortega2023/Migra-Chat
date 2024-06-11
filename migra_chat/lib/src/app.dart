@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:migra_chat/src/ui/chat/chat.dart';
 import 'package:migra_chat/src/ui/forms/forms.dart';
+import 'package:migra_chat/src/ui/forms/pdf_edit.dart';
+import 'package:migra_chat/src/ui/mockups/tree_mockup.dart';
 import 'package:migra_chat/src/ui/tree_painting/tree_painting.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
@@ -94,6 +96,9 @@ class MyApp extends StatelessWidget {
             '/painting': (context) => TreePainting(),
             '/chat': (context) => const SafeArea(child: ChatPage()),
             '/forms': (context) => const SafeArea(child: FormsPage()),
+            '/pdf_edit': (context) => const SafeArea(child: PDFEditPage()),
+            '/tree_mockup': (context) =>
+                const SafeArea(child: TreePageMockup()),
           },
           home: const SafeArea(child: UserIntake()),
         );

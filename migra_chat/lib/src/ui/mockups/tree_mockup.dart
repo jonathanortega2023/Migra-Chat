@@ -7,18 +7,25 @@ class TreePageMockup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Family Tree'),
-      ),
-      drawer: const AppDrawer(),
-      body: Center(
-        child: Column(
-          children: [
-            const Text('Family Tree Mockup'),
-            const Text('Coming soon...'),
-          ],
+        appBar: AppBar(
+          title: const Text('Family Tree'),
         ),
-      ),
+        drawer: const AppDrawer(),
+        body: CustomPaint(
+          painter: TreePainter(),
+          child: Container(),
+        ));
+  }
+}
+
+class TreePainter extends CustomPainter {
+  // skeleton listtile for tree, has leading icon and title or trailing icon
+  Widget _skeletonListTile(
+      {required IconData icon, String? title, bool hasLeadingIcon = true}) {
+    return ListTile(
+      leading: Icon(icon),
+      title: Text(title ?? ''),
+      trailing: trailingIcon != null ? Icon(trailingIcon) : null,
     );
   }
 }
