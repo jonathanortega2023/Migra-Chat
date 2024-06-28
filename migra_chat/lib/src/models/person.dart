@@ -1,4 +1,4 @@
-// on modification, run command: `dart run build_runner build`
+// on modification, run command: `dart run build_runner build --delete-conflicting-output`
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -37,7 +37,7 @@ class Person {
   MaritalStatus? maritalStatus;
   DateTime dateOfBirth;
   DateTime? dateOfDeath;
-  Gender gender;
+  Gender? gender;
   Country? countryOfResidence;
   DateTime? dateOfEntry;
   USCitizenship? usCitizenStatus;
@@ -52,7 +52,7 @@ class Person {
     required this.maritalStatus,
     required this.dateOfBirth,
     this.dateOfDeath,
-    required this.gender,
+    this.gender,
     this.countryOfResidence,
     required this.usCitizenStatus,
     this.usZipCode,
@@ -62,6 +62,8 @@ class Person {
         assert(dateOfDeath == null || dateOfDeath.isAfter(dateOfBirth)),
         assert(usZipCode == null || usZipCode.toString().length == 5),
         uid = const Uuid().v4();
+  // maybe use timestamp once not using mock data
+  // uid = DateTime.now().microsecondsSinceEpoch.toString();
 
   String get fullName => '$firstName ${middleName ?? ''} $lastName';
   bool get isAlive => livingStatus == LivingStatus.alive;
@@ -82,6 +84,86 @@ class Person {
   // TODO Think about this
   bool get isMarried => maritalStatus == MaritalStatus.married;
   bool get hasSpouse => relationships.values.contains(Relationship.spouse);
+
+  void addRelationship(Person person, Relationship relation) {
+    relationships[person.uid] = relation;
+  }
+
+  void removeRelationship(Person person) {
+    relationships.remove(person.uid);
+  }
+
+  void updateRelationship(Person person, Relationship relation) {
+    relationships.update(person.uid, (value) => relation);
+  }
+
+  void addChildren(List<Person> children,
+      {bool addToSpouse = false, Person? spouse}) {
+    assert(children.isNotEmpty, 'Children list cannot be empty');
+
+    if (addToSpouse && spouse == null) {
+      throw Exception('Spouse is required');
+    }
+    for (Person child in children) {
+      addChild(child, addToSpouse: addToSpouse, spouse: spouse);
+    }
+    // make all children siblings of each other, maybe call addSiblings()?
+    for (Person child in children) {
+      for (Person otherChild in children) {
+        if (child != otherChild) {
+          child.addSibling(otherChild);
+        }
+      }
+    }
+  }
+
+  void addChild(Person child, {bool addToSpouse = false, Person? spouse}) {
+    // copy over other children as siblings
+    relationships.forEach((key, value) {
+      if (value == Relationship.child) {
+        child.relationships[key] = Relationship.sibling;
+      }
+    });
+    relationships[child.uid] = Relationship.child;
+    child.relationships[uid] = Relationship.parent;
+
+    if (!addToSpouse) return;
+    if (!hasSpouse) {
+      throw Exception('Person is not married');
+    }
+    if (spouse == null) {
+      throw Exception('Spouse is required');
+    }
+    spouse.relationships[child.uid] = Relationship.child;
+    child.relationships[spouse.uid] = Relationship.parent;
+  }
+
+  void addSiblings(List<Person> siblings) {
+    assert(siblings.isNotEmpty, 'Siblings list cannot be empty');
+    for (Person sibling in siblings) {
+      addSibling(sibling);
+    }
+    for (Person sibling in siblings) {
+      for (Person otherSibling in siblings) {
+        if (sibling != otherSibling) {
+          sibling.addSibling(otherSibling);
+        }
+      }
+    }
+  }
+
+  void addSibling(Person sibling) {
+    relationships[sibling.uid] = Relationship.sibling;
+    sibling.relationships[uid] = Relationship.sibling;
+  }
+
+  void addSpouse(Person spouse) {
+    if (hasSpouse || spouse.hasSpouse) {
+      throw Exception('Person is already married');
+    }
+    relationships[spouse.uid] = Relationship.spouse;
+    spouse.relationships[uid] = Relationship.spouse;
+  }
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
   Map<String, dynamic> toJson() => _$PersonToJson(this);

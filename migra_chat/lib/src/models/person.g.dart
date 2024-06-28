@@ -18,7 +18,7 @@ Person _$PersonFromJson(Map<String, dynamic> json) => Person(
       dateOfDeath: json['dateOfDeath'] == null
           ? null
           : DateTime.parse(json['dateOfDeath'] as String),
-      gender: $enumDecode(_$GenderEnumMap, json['gender']),
+      gender: $enumDecodeNullable(_$GenderEnumMap, json['gender']),
       countryOfResidence:
           $enumDecodeNullable(_$CountryEnumMap, json['countryOfResidence']),
       usCitizenStatus:
@@ -43,7 +43,7 @@ Map<String, dynamic> _$PersonToJson(Person instance) => <String, dynamic>{
       'maritalStatus': _$MaritalStatusEnumMap[instance.maritalStatus],
       'dateOfBirth': instance.dateOfBirth.toIso8601String(),
       'dateOfDeath': instance.dateOfDeath?.toIso8601String(),
-      'gender': _$GenderEnumMap[instance.gender]!,
+      'gender': _$GenderEnumMap[instance.gender],
       'countryOfResidence': _$CountryEnumMap[instance.countryOfResidence],
       'dateOfEntry': instance.dateOfEntry?.toIso8601String(),
       'usCitizenStatus': _$USCitizenshipEnumMap[instance.usCitizenStatus],

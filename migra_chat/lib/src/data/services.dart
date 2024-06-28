@@ -59,3 +59,8 @@ dynamic readJSON(String fileName, {bool secure = false}) async {
   final jsonData = await file.readAsString();
   return jsonDecode(jsonData);
 }
+
+// relevant code for users file compression
+// final compressed = gzip.encode(jsonEncode(allPeople).codeUnits);
+// final qrCode = QrCode.fromUint8List(
+//     data: Uint8List.fromList(compressed), errorCorrectLevel: 0);

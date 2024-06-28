@@ -35,6 +35,8 @@ dependencies:
   flutter_chat_ui: ^1.6.12
   flutter_chat_types: ^3.6.2
   syncfusion_flutter_pdf: ^25.1.40
+  animate_do: ^3.3.4
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
