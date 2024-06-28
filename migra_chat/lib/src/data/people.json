@@ -1,0 +1,220 @@
+[
+    {
+        "isPrimary": true,
+        "uid": "9905534a-6408-447a-9150-db845df76743",
+        "firstName": "Homer",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "alive",
+        "maritalStatus": "married",
+        "dateOfBirth": "1956-05-12T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": "male",
+        "countryOfResidence": "us",
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": "12345",
+        "relationships": {
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "spouse",
+            "486bbe83-9663-430a-82cf-8e0c944e9999": "child",
+            "fd9bfb7d-dec4-47fc-972d-749eef7b08c8": "child",
+            "dd914527-47d5-4d55-bfd1-8a764c802ba5": "child",
+            "5f15fb96-0567-4295-944a-b9fdae6a5837": "parent",
+            "b9bc63d6-a56e-4fa5-bc0b-e0bc9de045f4": "parent"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "482988a0-bde1-4ee0-8d8c-79bfde7b1963",
+        "firstName": "Marge",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "alive",
+        "maritalStatus": "married",
+        "dateOfBirth": "1955-03-19T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": "female",
+        "countryOfResidence": "us",
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": "12345",
+        "relationships": {
+            "9905534a-6408-447a-9150-db845df76743": "spouse",
+            "486bbe83-9663-430a-82cf-8e0c944e9999": "child",
+            "fd9bfb7d-dec4-47fc-972d-749eef7b08c8": "child",
+            "dd914527-47d5-4d55-bfd1-8a764c802ba5": "child",
+            "7d332311-d5cb-420f-aece-70877b4593a2": "sibling",
+            "61cced44-5838-4774-980b-9d67d7fb1f67": "sibling",
+            "77bd02ec-cedc-4ff9-96b0-5e3c46f5d0ca": "parent"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "486bbe83-9663-430a-82cf-8e0c944e9999",
+        "firstName": "Bart",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "alive",
+        "maritalStatus": "single",
+        "dateOfBirth": "1979-02-23T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": "male",
+        "countryOfResidence": "us",
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": "12345",
+        "relationships": {
+            "9905534a-6408-447a-9150-db845df76743": "parent",
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "parent",
+            "fd9bfb7d-dec4-47fc-972d-749eef7b08c8": "sibling",
+            "dd914527-47d5-4d55-bfd1-8a764c802ba5": "sibling"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "fd9bfb7d-dec4-47fc-972d-749eef7b08c8",
+        "firstName": "Lisa",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "alive",
+        "maritalStatus": "single",
+        "dateOfBirth": "1981-05-09T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": "female",
+        "countryOfResidence": "us",
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": "12345",
+        "relationships": {
+            "486bbe83-9663-430a-82cf-8e0c944e9999": "sibling",
+            "9905534a-6408-447a-9150-db845df76743": "parent",
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "parent",
+            "dd914527-47d5-4d55-bfd1-8a764c802ba5": "sibling"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "dd914527-47d5-4d55-bfd1-8a764c802ba5",
+        "firstName": "Maggie",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "alive",
+        "maritalStatus": "single",
+        "dateOfBirth": "1988-01-14T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": "female",
+        "countryOfResidence": "us",
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": "12345",
+        "relationships": {
+            "486bbe83-9663-430a-82cf-8e0c944e9999": "sibling",
+            "fd9bfb7d-dec4-47fc-972d-749eef7b08c8": "sibling",
+            "9905534a-6408-447a-9150-db845df76743": "parent",
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "parent"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "5f15fb96-0567-4295-944a-b9fdae6a5837",
+        "firstName": "Abraham",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "alive",
+        "maritalStatus": "widowed",
+        "dateOfBirth": "1901-05-25T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": null,
+        "countryOfResidence": null,
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": null,
+        "relationships": {
+            "b9bc63d6-a56e-4fa5-bc0b-e0bc9de045f4": "spouse",
+            "9905534a-6408-447a-9150-db845df76743": "child"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "b9bc63d6-a56e-4fa5-bc0b-e0bc9de045f4",
+        "firstName": "Mona",
+        "middleName": null,
+        "lastName": "Simpson",
+        "livingStatus": "deceased",
+        "maritalStatus": "widowed",
+        "dateOfBirth": "1923-03-15T00:00:00.000",
+        "dateOfDeath": "1995-08-10T00:00:00.000",
+        "gender": null,
+        "countryOfResidence": null,
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": null,
+        "relationships": {
+            "5f15fb96-0567-4295-944a-b9fdae6a5837": "spouse",
+            "9905534a-6408-447a-9150-db845df76743": "child"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "7d332311-d5cb-420f-aece-70877b4593a2",
+        "firstName": "Patty",
+        "middleName": null,
+        "lastName": "Bouvier",
+        "livingStatus": "alive",
+        "maritalStatus": "single",
+        "dateOfBirth": "1948-01-01T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": null,
+        "countryOfResidence": null,
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": null,
+        "relationships": {
+            "77bd02ec-cedc-4ff9-96b0-5e3c46f5d0ca": "parent",
+            "61cced44-5838-4774-980b-9d67d7fb1f67": "sibling",
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "sibling"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "61cced44-5838-4774-980b-9d67d7fb1f67",
+        "firstName": "Selma",
+        "middleName": null,
+        "lastName": "Bouvier",
+        "livingStatus": "alive",
+        "maritalStatus": "single",
+        "dateOfBirth": "1948-01-01T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": null,
+        "countryOfResidence": null,
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": null,
+        "relationships": {
+            "7d332311-d5cb-420f-aece-70877b4593a2": "sibling",
+            "77bd02ec-cedc-4ff9-96b0-5e3c46f5d0ca": "parent",
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "sibling"
+        }
+    },
+    {
+        "isPrimary": false,
+        "uid": "77bd02ec-cedc-4ff9-96b0-5e3c46f5d0ca",
+        "firstName": "Jacqueline",
+        "middleName": null,
+        "lastName": "Bouvier",
+        "livingStatus": "alive",
+        "maritalStatus": "single",
+        "dateOfBirth": "1929-01-01T00:00:00.000",
+        "dateOfDeath": null,
+        "gender": null,
+        "countryOfResidence": null,
+        "dateOfEntry": null,
+        "usCitizenStatus": "citizen",
+        "usZipCode": null,
+        "relationships": {
+            "7d332311-d5cb-420f-aece-70877b4593a2": "child",
+            "61cced44-5838-4774-980b-9d67d7fb1f67": "child",
+            "482988a0-bde1-4ee0-8d8c-79bfde7b1963": "child"
+        }
+    }
+]

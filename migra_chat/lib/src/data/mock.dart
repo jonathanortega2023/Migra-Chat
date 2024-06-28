@@ -3,7 +3,6 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:migra_chat/src/models/person.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 Person homer = Person(
   isPrimary: true,
@@ -145,12 +144,18 @@ List<Person> allPeople = [
 ];
 void main() async {
   homer.addSpouse(marge);
-  homer.addChildren([bart, lisa, maggie], addToSpouse: true, spouse: marge);
+  homer.addChildren([bart, lisa, maggie], spouse: marge);
   abe.addSpouse(mona);
-  abe.addChild(homer, addToSpouse: true, spouse: mona);
+  abe.addChild(homer, spouse: mona);
   jacqueline.addChildren([patty, selma, marge]);
 
-  final compressed = gzip.encode(jsonEncode(allPeople).codeUnits);
-  final qrCode = QrCode.fromUint8List(
-      data: Uint8List.fromList(compressed), errorCorrectLevel: 0);
+  // final compressed = gzip.encode(jsonEncode(allPeople).codeUnits);
+  // final file = File('people.json.gz');
+  // file.writeAsBytesSync(compressed);
+  final file = File('people.json');
+  file.writeAsStringSync(jsonEncode(allPeople));
+}
+
+List<Person> getPeople() {
+  return allPeople;
 }

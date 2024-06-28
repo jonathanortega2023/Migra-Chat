@@ -1,4 +1,4 @@
-// on modification, run command: `dart run build_runner build --delete-conflicting-output`
+// on modification, run command: `dart run build_runner build`
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
@@ -97,15 +97,11 @@ class Person {
     relationships.update(person.uid, (value) => relation);
   }
 
-  void addChildren(List<Person> children,
-      {bool addToSpouse = false, Person? spouse}) {
+  void addChildren(List<Person> children, {Person? spouse}) {
     assert(children.isNotEmpty, 'Children list cannot be empty');
 
-    if (addToSpouse && spouse == null) {
-      throw Exception('Spouse is required');
-    }
     for (Person child in children) {
-      addChild(child, addToSpouse: addToSpouse, spouse: spouse);
+      addChild(child, spouse: spouse);
     }
     // make all children siblings of each other, maybe call addSiblings()?
     for (Person child in children) {
@@ -117,7 +113,7 @@ class Person {
     }
   }
 
-  void addChild(Person child, {bool addToSpouse = false, Person? spouse}) {
+  void addChild(Person child, {Person? spouse}) {
     // copy over other children as siblings
     relationships.forEach((key, value) {
       if (value == Relationship.child) {
@@ -127,12 +123,9 @@ class Person {
     relationships[child.uid] = Relationship.child;
     child.relationships[uid] = Relationship.parent;
 
-    if (!addToSpouse) return;
+    if (spouse == null) return;
     if (!hasSpouse) {
       throw Exception('Person is not married');
-    }
-    if (spouse == null) {
-      throw Exception('Spouse is required');
     }
     spouse.relationships[child.uid] = Relationship.child;
     child.relationships[spouse.uid] = Relationship.parent;

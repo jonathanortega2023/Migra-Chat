@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:migra_chat/src/models/person.dart';
+import 'package:migra_chat/src/data/mock.dart';
+
+final people = getPeople();
 
 class FamilyTreeView extends StatefulWidget {
   @override
@@ -8,27 +11,35 @@ class FamilyTreeView extends StatefulWidget {
 }
 
 class _FamilyTreeViewState extends State<FamilyTreeView> {
-  var json = {
+  var homerJSON = {
     'nodes': [
-      {'id': 1, 'label': 'jon'},
-      {'id': 2, 'label': 'alysha'},
-      {'id': 3, 'label': 'alexa'},
-      {'id': 4, 'label': 'aaliyah'},
-      {'id': 5, 'label': 'ryan'},
-      {'id': 6, 'label': 'ramon'},
-      {'id': 7, 'label': 'luisa'},
+      {'id': 1, 'label': 'Abe'},
+      {'id': 2, 'label': 'Mona'},
+      {'id': 3, 'label': 'Homer'},
+      {'id': 4, 'label': 'Marge'},
+      {'id': 5, 'label': 'Bart'},
+      {'id': 6, 'label': 'Lisa'},
+      {'id': 7, 'label': 'Maggie'},
+      {'id': 8, 'label': 'Patty'},
+      {'id': 9, 'label': 'Selma'},
+      {'id': 10, 'label': 'Jacqueline'},
     ],
     'edges': [
-      {'from': 6, 'to': 1},
-      {'from': 6, 'to': 2},
-      {'from': 6, 'to': 3},
-      {'from': 6, 'to': 4},
-      {'from': 7, 'to': 1},
-      {'from': 7, 'to': 2},
-      {'from': 7, 'to': 3},
-      {'from': 7, 'to': 4},
+      {'from': 1, 'to': 3},
+      {'from': 2, 'to': 3},
+      {'from': 3, 'to': 5},
+      {'from': 3, 'to': 6},
+      {'from': 3, 'to': 7},
+      {'from': 4, 'to': 5},
+      {'from': 4, 'to': 6},
+      {'from': 4, 'to': 7},
+      {'from': 10, 'to': 8},
+      {'from': 10, 'to': 9},
+      {'from': 10, 'to': 4},
     ]
   };
+
+  var margeJSON = {};
 
   @override
   Widget build(BuildContext context) {
@@ -95,31 +106,17 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
                   maxScale: 5.6,
                   child: GraphView(
                     graph: graph,
-                    algorithm: BuchheimWalkerAlgorithm(
-                        builder, TreeEdgeRenderer(builder)),
+                    algorithm: SugiyamaAlgorithm(
+                      SugiyamaConfiguration(),
+                    ),
                     paint: Paint()
                       ..color = Colors.green
                       ..strokeWidth = 1
                       ..style = PaintingStyle.stroke,
                     builder: (Node node) {
-                      // if node id is 6, show a stack of widgets with offset if 7, show nothing
-                      // I can decide what widget should be shown here based on the id
                       var a = node.key!.value as int?;
-                      if (a == 7) {
-                        return SizedBox.shrink();
-                      } else if (a == 6) {
-                        return Stack(
-                          children: [
-                            Positioned(
-                              left: 100,
-                              bottom: 100,
-                              child: rectangleWidget('luisa'),
-                            ),
-                            rectangleWidget('ramon'),
-                          ],
-                        );
-                      }
-                      var nodes = json['nodes']!;
+
+                      var nodes = homerJSON['nodes']!;
                       var nodeValue =
                           nodes.firstWhere((element) => element['id'] == a);
                       return rectangleWidget(nodeValue['label'] as String?);
@@ -139,9 +136,6 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
           padding: EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(4),
-            boxShadow: [
-              BoxShadow(color: Colors.blue[100]!, spreadRadius: 1),
-            ],
           ),
           child: Text('${a}')),
     );
@@ -153,7 +147,7 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
   @override
   void initState() {
     super.initState();
-    var edges = json['edges']!;
+    var edges = homerJSON['edges']!;
     for (var element in edges) {
       var fromNodeId = element['from'];
       var toNodeId = element['to'];
@@ -165,9 +159,9 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
     }
 
     builder
-      ..siblingSeparation = (100)
-      ..levelSeparation = (150)
-      ..subtreeSeparation = (150)
-      ..orientation = (BuchheimWalkerConfiguration.ORIENTATION_TOP_BOTTOM);
+      ..siblingSeparation = (50)
+      ..levelSeparation = (100)
+      ..subtreeSeparation = (100)
+      ..orientation = (3);
   }
 }
