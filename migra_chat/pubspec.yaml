@@ -53,6 +53,7 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/
+    - assets/people.json
     - assets/images/
     - assets/images/country_flags/
     - assets/forms/

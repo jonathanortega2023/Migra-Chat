@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:migra_chat/src/models/person.dart';
 
 Person homer = Person(
@@ -130,32 +132,59 @@ Person jacqueline = Person(
   usCitizenStatus: USCitizenship.citizen,
 );
 
-List<Person> allPeople = [
-  homer,
-  marge,
-  bart,
-  lisa,
-  maggie,
-  abe,
-  mona,
-  patty,
-  selma,
-  jacqueline
-];
-void main() async {
+// List<Person> allPeople = [
+//   homer,
+//   marge,
+//   bart,
+//   lisa,
+//   maggie,
+//   abe,
+//   mona,
+//   patty,
+//   selma,
+//   jacqueline
+// ];
+
+// read from people.json
+List<Person> allPeople = [];
+
+List<Person> getPeople() {
   homer.addSpouse(marge);
   homer.addChildren([bart, lisa, maggie], spouse: marge);
   abe.addSpouse(mona);
   abe.addChild(homer, spouse: mona);
   jacqueline.addChildren([patty, selma, marge]);
-
-  // final compressed = gzip.encode(jsonEncode(allPeople).codeUnits);
-  // final file = File('people.json.gz');
-  // file.writeAsBytesSync(compressed);
-  final file = File('people.json');
-  file.writeAsStringSync(jsonEncode(allPeople));
-}
-
-List<Person> getPeople() {
+  allPeople = [
+    homer,
+    marge,
+    bart,
+    lisa,
+    maggie,
+    abe,
+    mona,
+    patty,
+    selma,
+    jacqueline
+  ];
   return allPeople;
 }
+
+Person getPerson(String uid) {
+  return allPeople.firstWhere((element) => element.uid == uid);
+}
+
+Map<String, Person> getPeopleMap() {
+  Map<String, Person> peopleMap = {};
+  for (Person person in allPeople) {
+    peopleMap[person.uid] = person;
+  }
+  return peopleMap;
+}
+
+// void main() async {
+//   homer.addSpouse(marge);
+//   homer.addChildren([bart, lisa, maggie], spouse: marge);
+//   abe.addSpouse(mona);
+//   abe.addChild(homer, spouse: mona);
+//   jacqueline.addChildren([patty, selma, marge]);
+// }

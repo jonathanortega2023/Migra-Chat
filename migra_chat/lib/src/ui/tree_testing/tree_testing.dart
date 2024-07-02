@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:migra_chat/src/models/person.dart';
 import 'package:migra_chat/src/data/mock.dart';
+import 'package:migra_chat/src/ui/family_tree/widgets.dart';
+import 'package:migra_chat/src/ui/widgets.dart';
 
-final people = getPeople();
+final allPeople = getPeople();
+final allPeopleMap = getPeopleMap();
 
 class FamilyTreeView extends StatefulWidget {
   @override
@@ -11,157 +14,149 @@ class FamilyTreeView extends StatefulWidget {
 }
 
 class _FamilyTreeViewState extends State<FamilyTreeView> {
-  var homerJSON = {
-    'nodes': [
-      {'id': 1, 'label': 'Abe'},
-      {'id': 2, 'label': 'Mona'},
-      {'id': 3, 'label': 'Homer'},
-      {'id': 4, 'label': 'Marge'},
-      {'id': 5, 'label': 'Bart'},
-      {'id': 6, 'label': 'Lisa'},
-      {'id': 7, 'label': 'Maggie'},
-      {'id': 8, 'label': 'Patty'},
-      {'id': 9, 'label': 'Selma'},
-      {'id': 10, 'label': 'Jacqueline'},
-    ],
-    'edges': [
-      {'from': 1, 'to': 3},
-      {'from': 2, 'to': 3},
-      {'from': 3, 'to': 5},
-      {'from': 3, 'to': 6},
-      {'from': 3, 'to': 7},
-      {'from': 4, 'to': 5},
-      {'from': 4, 'to': 6},
-      {'from': 4, 'to': 7},
-      {'from': 10, 'to': 8},
-      {'from': 10, 'to': 9},
-      {'from': 10, 'to': 4},
-    ]
-  };
+  Person focusPerson = allPeople.firstWhere((element) => element.isPrimary);
+  List<Person> focusRelatives = [];
+  Map<String, Person> focusRelativesMap = {};
+  List<Node> focusNodes = [];
 
-  var margeJSON = {};
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(),
-        body: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Wrap(
-              children: [
-                Container(
-                  width: 100,
-                  child: TextFormField(
-                    initialValue: builder.siblingSeparation.toString(),
-                    decoration:
-                        InputDecoration(labelText: 'Sibling Separation'),
-                    onChanged: (text) {
-                      builder.siblingSeparation = int.tryParse(text) ?? 100;
-                      setState(() {});
-                    },
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  child: TextFormField(
-                    initialValue: builder.levelSeparation.toString(),
-                    decoration: InputDecoration(labelText: 'Level Separation'),
-                    onChanged: (text) {
-                      builder.levelSeparation = int.tryParse(text) ?? 100;
-                      setState(() {});
-                    },
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  child: TextFormField(
-                    initialValue: builder.subtreeSeparation.toString(),
-                    decoration:
-                        InputDecoration(labelText: 'Subtree separation'),
-                    onChanged: (text) {
-                      builder.subtreeSeparation = int.tryParse(text) ?? 100;
-                      setState(() {});
-                    },
-                  ),
-                ),
-                Container(
-                  width: 100,
-                  child: TextFormField(
-                    initialValue: builder.orientation.toString(),
-                    decoration: InputDecoration(labelText: 'Orientation'),
-                    onChanged: (text) {
-                      builder.orientation = int.tryParse(text) ?? 100;
-                      setState(() {});
-                    },
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: InteractiveViewer(
-                  constrained: false,
-                  boundaryMargin: EdgeInsets.all(100),
-                  minScale: 0.01,
-                  maxScale: 5.6,
-                  child: GraphView(
-                    graph: graph,
-                    algorithm: SugiyamaAlgorithm(
-                      SugiyamaConfiguration(),
-                    ),
-                    paint: Paint()
-                      ..color = Colors.green
-                      ..strokeWidth = 1
-                      ..style = PaintingStyle.stroke,
-                    builder: (Node node) {
-                      var a = node.key!.value as int?;
-
-                      var nodes = homerJSON['nodes']!;
-                      var nodeValue =
-                          nodes.firstWhere((element) => element['id'] == a);
-                      return rectangleWidget(nodeValue['label'] as String?);
-                    },
-                  )),
-            ),
-          ],
-        ));
-  }
-
-  Widget rectangleWidget(String? a) {
-    return InkWell(
-      onTap: () {
-        print('clicked');
-      },
-      child: Container(
-          padding: EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(4),
-          ),
-          child: Text('${a}')),
-    );
-  }
-
-  final Graph graph = Graph()..isTree = true;
+  Graph graph = Graph()..isTree = true;
   BuchheimWalkerConfiguration builder = BuchheimWalkerConfiguration();
 
   @override
   void initState() {
     super.initState();
-    var edges = homerJSON['edges']!;
-    for (var element in edges) {
-      var fromNodeId = element['from'];
-      var toNodeId = element['to'];
-      graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId));
-      graph.addEdge(Node.Id(fromNodeId), Node.Id(toNodeId),
-          paint: Paint()
-            ..color = Colors.red
-            ..strokeWidth = 50);
+    filterFocusRelatives();
+    createFocusNodes();
+    getFocusPersonEdges();
+    configureBuilder();
+  }
+
+  void filterFocusRelatives() {
+    for (Person person in allPeople) {
+      if (person == focusPerson) {
+        focusRelatives.add(person);
+        continue;
+      }
+      final bool personIsAncestor = person.isAncestorOf(focusPerson);
+      final bool personIsDescendant = person.isDescendantOf(focusPerson);
+      if (personIsAncestor || personIsDescendant) {
+        focusRelatives.add(person);
+      }
+    }
+    focusRelativesMap = {for (var person in focusRelatives) person.uid: person};
+
+    // Remove one member of each couple from the map
+    final Set<String> removedSpouses = {};
+
+    for (int i = 0; i < focusRelatives.length; i++) {
+      final Person person = focusRelatives[i];
+      if (person.hasSpouse && focusRelativesMap.containsKey(person.spouseUID)) {
+        if (!removedSpouses.contains(person.spouseUID)) {
+          // Remove this person and mark their spouse as removed
+          focusRelativesMap.remove(person.uid);
+          removedSpouses.add(person.spouseUID!);
+        }
+      }
     }
 
+    focusRelatives = focusRelativesMap.values.toList();
+  }
+
+  void createFocusNodes() {
+    for (Person person in focusRelatives) {
+      final Node node = Node.Id(person.uid);
+      graph.addNode(node);
+      focusNodes.add(node);
+    }
+  }
+
+  void configureBuilder() {
     builder
-      ..siblingSeparation = (50)
-      ..levelSeparation = (100)
-      ..subtreeSeparation = (100)
-      ..orientation = (3);
+      ..siblingSeparation = 50
+      ..levelSeparation = 75
+      ..subtreeSeparation = 150
+      ..orientation = BuchheimWalkerConfiguration.ORIENTATION_LEFT_RIGHT;
+  }
+
+  void getFocusPersonEdges() {
+    final Map<String, Node> nodeMap = {
+      for (var node in focusNodes) node.key!.value as String: node
+    };
+    for (Person person in focusRelatives) {
+      final Node personNode = nodeMap[person.uid]!;
+      final List<Person> personChildren = person.getChildren();
+      for (Person child in personChildren) {
+        if (focusRelativesMap.containsKey(child.uid)) {
+          final Node childNode = nodeMap[child.uid]!;
+          graph.addEdge(personNode, childNode);
+        } else {
+          final Node childNode = Node.Id(child.uid);
+          graph.addNode(childNode);
+          graph.addEdge(personNode, childNode);
+          focusNodes.add(childNode);
+        }
+      }
+    }
+  }
+
+  void resetFocusPerson() {
+    setState(() {
+      focusRelatives = [];
+      focusRelativesMap = {};
+      focusNodes = [];
+      graph = Graph()..isTree = true;
+      builder = BuchheimWalkerConfiguration();
+      filterFocusRelatives();
+      createFocusNodes();
+      getFocusPersonEdges();
+      configureBuilder();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      drawer: const AppDrawer(),
+      appBar: AppBar(title: Text('Family Tree')),
+      body: InteractiveViewer(
+        constrained: false,
+        boundaryMargin: const EdgeInsets.all(100),
+        minScale: 0.01,
+        maxScale: 5.6,
+        child: GraphView(
+          graph: graph,
+          algorithm:
+              BuchheimWalkerAlgorithm(builder, TreeEdgeRenderer(builder)),
+          paint: Paint()
+            ..color = Colors.blue
+            ..strokeWidth = 2
+            ..style = PaintingStyle.stroke,
+          builder: (Node node) {
+            final Person person = allPeopleMap[node.key!.value as String]!;
+            if (person.hasSpouse) {
+              final Person spouse = allPeopleMap[person.spouseUID]!;
+              return CoupleListTile(
+                  focusPerson: person,
+                  partner: spouse,
+                  onTap: () {
+                    setState(() {
+                      focusPerson = spouse;
+                    });
+                    resetFocusPerson();
+                  });
+            } else {
+              return PersonListTile(
+                  person: person,
+                  onTap: () {
+                    setState(() {
+                      focusPerson = person;
+                    });
+                    resetFocusPerson();
+                  });
+            }
+          },
+        ),
+      ),
+    );
   }
 }

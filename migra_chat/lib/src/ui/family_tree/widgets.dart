@@ -5,7 +5,9 @@ import 'package:migra_chat/src/models/person.dart';
 class PersonListTile extends StatelessWidget {
   final Person person;
   final Key? tileKey;
-  PersonListTile({super.key, required this.person, this.tileKey});
+  final VoidCallback? onTap;
+
+  PersonListTile({super.key, required this.person, this.tileKey, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -29,9 +31,7 @@ class PersonListTile extends StatelessWidget {
       width: 250,
       child: ListTile(
         key: tileKey,
-        // onTap: () {
-        //   print('Tapped ${person.firstName} ${person.lastName}');
-        // },
+        onTap: onTap,
         tileColor: tileColor,
         shape: RoundedRectangleBorder(borderRadius: borderRadius),
         title: Text(
@@ -56,9 +56,14 @@ class PersonListTile extends StatelessWidget {
 class CoupleListTile extends StatefulWidget {
   Person focusPerson;
   Person partner;
+  final VoidCallback? onTap;
   final focusedPersonKey = GlobalKey();
 
-  CoupleListTile({super.key, required this.focusPerson, required this.partner});
+  CoupleListTile(
+      {super.key,
+      required this.focusPerson,
+      required this.partner,
+      this.onTap});
 
   @override
   _CoupleListTileState createState() => _CoupleListTileState();
@@ -72,6 +77,9 @@ class _CoupleListTileState extends State<CoupleListTile> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        if (widget.onTap != null) {
+          widget.onTap!();
+        }
         // Swap focusPerson and partner
         final temp = widget.focusPerson;
         setState(() {

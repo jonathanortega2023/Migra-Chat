@@ -1,6 +1,8 @@
 // on modification, run command: `dart run build_runner build`
+// TODO Refactor to store parents and children as separate lists
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:migra_chat/src/data/mock.dart';
 import 'package:uuid/uuid.dart';
 
 part 'person.g.dart';
@@ -84,6 +86,12 @@ class Person {
   // TODO Think about this
   bool get isMarried => maritalStatus == MaritalStatus.married;
   bool get hasSpouse => relationships.values.contains(Relationship.spouse);
+  String? get spouseUID {
+    if (!hasSpouse) return null;
+    return relationships.entries
+        .firstWhere((element) => element.value == Relationship.spouse)
+        .key;
+  }
 
   void addRelationship(Person person, Relationship relation) {
     relationships[person.uid] = relation;
@@ -131,6 +139,13 @@ class Person {
     child.relationships[spouse.uid] = Relationship.parent;
   }
 
+  List<Person> getChildren() {
+    return relationships.entries
+        .where((element) => element.value == Relationship.child)
+        .map((e) => getPerson(e.key))
+        .toList();
+  }
+
   void addSiblings(List<Person> siblings) {
     assert(siblings.isNotEmpty, 'Siblings list cannot be empty');
     for (Person sibling in siblings) {
@@ -156,6 +171,30 @@ class Person {
     }
     relationships[spouse.uid] = Relationship.spouse;
     spouse.relationships[uid] = Relationship.spouse;
+  }
+
+  bool isAncestorOf(Person other) {
+    // Base case: if the other person has this person's UID as a parent
+    if (other.relationships.containsKey(uid) &&
+        other.relationships[uid] == Relationship.parent) {
+      return true;
+    }
+
+    // Recursively check if any child of this person is an ancestor of the other person
+    for (String childUid in relationships.keys
+        .where((k) => relationships[k] == Relationship.child)) {
+      Person child = getPerson(childUid);
+      if (child.isAncestorOf(other)) {
+        return true;
+      }
+    }
+
+    // If no match found, return false
+    return false;
+  }
+
+  bool isDescendantOf(Person other) {
+    return other.isAncestorOf(this);
   }
 
   factory Person.fromJson(Map<String, dynamic> json) => _$PersonFromJson(json);
