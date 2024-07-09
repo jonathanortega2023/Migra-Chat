@@ -1,3 +1,4 @@
+// TODO Fix behavior when selecting bart/maggie/lisa
 import 'package:flutter/material.dart';
 import 'package:graphview/GraphView.dart';
 import 'package:migra_chat/src/models/person.dart';
@@ -43,7 +44,9 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
         focusRelatives.add(person);
       }
     }
-    focusRelativesMap = {for (var person in focusRelatives) person.uid: person};
+    focusRelativesMap = {
+      for (Person person in focusRelatives) person.uid: person
+    };
 
     // Remove one member of each couple from the map
     final Set<String> removedSpouses = {};
@@ -80,7 +83,7 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
 
   void getFocusPersonEdges() {
     final Map<String, Node> nodeMap = {
-      for (var node in focusNodes) node.key!.value as String: node
+      for (Node node in focusNodes) node.key!.value as String: node
     };
     for (Person person in focusRelatives) {
       final Node personNode = nodeMap[person.uid]!;
@@ -117,7 +120,7 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const AppDrawer(),
-      appBar: AppBar(title: Text('Family Tree')),
+      appBar: AppBar(title: const Text('Family Tree')),
       body: InteractiveViewer(
         constrained: false,
         boundaryMargin: const EdgeInsets.all(100),
@@ -136,17 +139,20 @@ class _FamilyTreeViewState extends State<FamilyTreeView> {
             if (person.hasSpouse) {
               final Person spouse = allPeopleMap[person.spouseUID]!;
               return CoupleListTile(
-                  focusPerson: person,
-                  partner: spouse,
-                  onTap: () {
-                    setState(() {
-                      focusPerson = spouse;
-                    });
-                    resetFocusPerson();
+                primaryPerson: person,
+                partner: spouse,
+                focused: person == focusPerson,
+                onTap: () {
+                  setState(() {
+                    focusPerson = spouse;
                   });
+                  resetFocusPerson();
+                },
+              );
             } else {
               return PersonListTile(
                   person: person,
+                  focused: person == focusPerson,
                   onTap: () {
                     setState(() {
                       focusPerson = person;

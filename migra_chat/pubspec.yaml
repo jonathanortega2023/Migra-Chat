@@ -11,8 +11,8 @@ environment:
 
 dependencies:
   build_runner: ^2.4.8
-  country_flags: ^2.2.0
-  country_pickers: ^2.0.0
+  country_flags: ^3.0.0
+  country_pickers: ^3.0.1
   csv: ^6.0.0
   flutter:
     sdk: flutter
@@ -20,21 +20,21 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_secure_storage: ^4.2.1
-  form_builder_validators: ^9.1.0
+  form_builder_validators: ^10.0.1
   getwidget: ^4.0.0
   graphview: ^1.2.0
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
   json_serializable: ^6.7.1
   path_provider: ^2.1.2
   tflite_flutter: ^0.10.4
   uuid: ^4.3.3
   vector_math: ^2.1.4
-  flutter_markdown: ^0.6.22+1
-  langchain: ^0.0.3
+  flutter_markdown: ^0.7.3
+  langchain: ^0.7.3
   flutter_gen: ^5.4.0
   flutter_chat_ui: ^1.6.12
   flutter_chat_types: ^3.6.2
-  syncfusion_flutter_pdf: ^25.1.40
+  syncfusion_flutter_pdf: ^26.1.40
   animate_do: ^3.3.4
   qr_flutter: ^4.1.0
 
@@ -42,7 +42,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
+
+# pin intl to 0.18
+dependency_overrides:
+  intl: ^0.18.1
 
 flutter:
   uses-material-design: true

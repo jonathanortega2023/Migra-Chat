@@ -132,6 +132,17 @@ Person jacqueline = Person(
   usCitizenStatus: USCitizenship.citizen,
 );
 
+Person herb = Person(
+  isPrimary: false,
+  firstName: 'Herb',
+  lastName: 'Powell',
+  livingStatus: LivingStatus.alive,
+  maritalStatus: MaritalStatus.single,
+  dateOfBirth: DateTime(1956, 10, 16),
+  relationships: {},
+  usCitizenStatus: USCitizenship.citizen,
+);
+
 // List<Person> allPeople = [
 //   homer,
 //   marge,
@@ -153,6 +164,7 @@ List<Person> getPeople() {
   homer.addChildren([bart, lisa, maggie], spouse: marge);
   abe.addSpouse(mona);
   abe.addChild(homer, spouse: mona);
+  abe.addChild(herb);
   jacqueline.addChildren([patty, selma, marge]);
   allPeople = [
     homer,
@@ -162,6 +174,7 @@ List<Person> getPeople() {
     maggie,
     abe,
     mona,
+    herb,
     patty,
     selma,
     jacqueline

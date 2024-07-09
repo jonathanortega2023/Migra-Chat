@@ -97,8 +97,8 @@ class MyApp extends StatelessWidget {
             '/forms': (context) => const SafeArea(child: FormsPage()),
             '/pdf_edit': (context) => const SafeArea(child: PDFEditPage()),
           },
-          initialRoute: '/test_tree',
-          // home: const SafeArea(child: UserIntake()),
+          // initialRoute: '/test_tree',
+          home: const SafeArea(child: UserIntake()),
         );
       },
     );
