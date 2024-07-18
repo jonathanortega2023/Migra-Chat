@@ -1,11 +1,26 @@
-import 'dart:convert';
+// Importing necessary packages
 import 'dart:io';
 
+import 'package:migra_chat/src/data/mock.dart';
+import 'package:langchain/langchain.dart';
+import 'package:langchain_community/langchain_community.dart';
+import 'package:langchain_ollama/langchain_ollama.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:migra_chat/src/models/person.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
+import 'package:flutter/services.dart' show rootBundle;
+
+// Defining the bot user
+const types.User botUser = types.User(
+  id: '0',
+  // TODO Add bot avatar
+  // imageUrl:
+);
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -16,14 +31,65 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   List<types.Message> _messages = [];
-  final _user = const types.User(
-    id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',
-  );
+  List<Person> allPeople = getPeople();
+  late final types.User _user;
+  late final ObjectBoxVectorStore vectorStore;
+  late final Embeddings embeddings;
+  late final Retriever retriever;
+  late final Runnable chain;
+  late final ChatOllama chatModel;
+  late final ChatPromptTemplate promptTemplate;
+  final TextEditingController textController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    final primaryPerson = allPeople.firstWhere((person) => person.isPrimary);
+    _user = types.User(
+      id: primaryPerson.uid,
+      firstName: primaryPerson.firstName,
+      lastName: primaryPerson.lastName,
+    );
+    _initializeChatComponents();
     _loadMessages();
+  }
+
+  Future<void> _initializeChatComponents() async {
+    // Load the MDB file from assets
+    final dbAsset = await rootBundle
+        .load('assets/resources/Federal/Legislation/objectbox/data.mdb');
+    final dbDir = await getApplicationDocumentsDirectory();
+
+    // Write the MDB file to a directory
+    final dbFilePath = '${dbDir.path}/data.mdb';
+    final dbFile = File(dbFilePath);
+    await dbFile.writeAsBytes(dbAsset.buffer.asUint8List());
+
+    // Initialize ObjectBoxVectorStore
+    embeddings = OllamaEmbeddings(model: 'mxbai-embed-large');
+    vectorStore = ObjectBoxVectorStore(
+      embeddings: embeddings,
+      dimensions: 1024,
+      directory: dbFilePath,
+    );
+    retriever = vectorStore.asRetriever();
+
+    chatModel = ChatOllama(
+      defaultOptions: const ChatOllamaOptions(model: 'llama3:8b'),
+    );
+
+    promptTemplate = ChatPromptTemplate.fromTemplate('''
+Answer the question based only on the following context:
+{context}
+Question: {question}''');
+
+    chain = Runnable.fromMap<String>({
+          'context': retriever | Runnable.mapInput((docs) => docs.join('\n')),
+          'question': Runnable.passthrough(),
+        }) |
+        promptTemplate |
+        chatModel |
+        const StringOutputParser();
   }
 
   void _addMessage(types.Message message) {
@@ -33,9 +99,7 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _handlePreviewDataFetched(
-    types.TextMessage message,
-    types.PreviewData previewData,
-  ) {
+      types.TextMessage message, types.PreviewData previewData) {
     final index = _messages.indexWhere((element) => element.id == message.id);
     final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
       previewData: previewData,
@@ -46,18 +110,26 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void _handleSendPressed(types.PartialText message) {
-    // Check if the message contains non-whitespace characters
-    if (message.text.trim().isNotEmpty) {
-      final textMessage = types.TextMessage(
-        author: _user,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        text: message.text,
-      );
-
-      _addMessage(textMessage);
+  void _handleSendPressed(types.PartialText message) async {
+    if (message.text.trim().isEmpty) {
+      return;
     }
+    final textMessage = types.TextMessage(
+      author: _user,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: const Uuid().v4(),
+      text: message.text,
+    );
+
+    _addMessage(textMessage);
+    // Generate response from langchain model
+    final response = await chain.invoke(message.text);
+    _addMessage(types.TextMessage(
+      author: botUser,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: '0',
+      text: response as String,
+    ));
   }
 
   void _loadMessages() async {
@@ -84,12 +156,9 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  TextEditingController textController = TextEditingController();
-
   @override
   Widget build(BuildContext context) => Scaffold(
         body: Chat(
-          // hack to make the send button work on 3rd party keyboards
           inputOptions: InputOptions(
             onTextChanged: (text) {
               setState(() {
@@ -98,9 +167,7 @@ class _ChatPageState extends State<ChatPage> {
             },
             textEditingController: textController,
           ),
-
           messages: _messages,
-          // onMessageTap: _handleMessageTap,
           onPreviewDataFetched: _handlePreviewDataFetched,
           usePreviewData: true,
           onSendPressed: _handleSendPressed,

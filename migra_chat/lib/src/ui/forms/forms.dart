@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/tabs/gf_segment_tabs.dart';
 import 'package:getwidget/getwidget.dart';

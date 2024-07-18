@@ -4,15 +4,13 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:migra_chat/src/ui/chat/chat.dart';
 import 'package:migra_chat/src/ui/forms/forms.dart';
 import 'package:migra_chat/src/ui/forms/pdf_edit.dart';
-import 'package:migra_chat/src/ui/tree_painting/tree_painting.dart';
 
 import 'sample_feature/sample_item_details_view.dart';
 import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
-import '../src/ui/family_tree/family_tree.dart';
 import '../src/ui/intake/intake.dart';
-import '../src/ui/tree_testing/tree_testing.dart';
+import 'ui/family_tree/tree_testing.dart';
 import 'ui/landing/landing.dart';
 
 /// The Widget that configures your application.
@@ -89,15 +87,12 @@ class MyApp extends StatelessWidget {
           },
           routes: {
             '/intake': (context) => const SafeArea(child: UserIntake()),
-            '/family_tree': (context) => SafeArea(child: FamilyTreePage()),
-            '/test_tree': (context) => SafeArea(child: FamilyTreeView()),
+            '/family_tree': (context) => SafeArea(child: FamilyTree()),
             '/landing': (context) => const SafeArea(child: LandingPage()),
-            '/painting': (context) => TreePainting(),
             '/chat': (context) => const SafeArea(child: ChatPage()),
             '/forms': (context) => const SafeArea(child: FormsPage()),
             '/pdf_edit': (context) => const SafeArea(child: PDFEditPage()),
           },
-          // initialRoute: '/test_tree',
           home: const SafeArea(child: UserIntake()),
         );
       },

@@ -186,6 +186,10 @@ Person getPerson(String uid) {
   return allPeople.firstWhere((element) => element.uid == uid);
 }
 
+Person getPrimaryPerson() {
+  return allPeople.firstWhere((element) => element.isPrimary);
+}
+
 Map<String, Person> getPeopleMap() {
   Map<String, Person> peopleMap = {};
   for (Person person in allPeople) {

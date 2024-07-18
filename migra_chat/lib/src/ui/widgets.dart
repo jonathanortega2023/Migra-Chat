@@ -17,21 +17,9 @@ Widget drawerList(context) {
         },
       ),
       GFListTile(
-        title: const Text('Tree Testing'),
-        onTap: () {
-          Navigator.popAndPushNamed(context, '/test_tree');
-        },
-      ),
-      GFListTile(
         title: const Text('Landing Page'),
         onTap: () {
           Navigator.popAndPushNamed(context, '/landing');
-        },
-      ),
-      GFListTile(
-        title: const Text('Tree Painting'),
-        onTap: () {
-          Navigator.popAndPushNamed(context, '/painting');
         },
       ),
       GFListTile(
@@ -50,12 +38,6 @@ Widget drawerList(context) {
         title: const Text('PDF Edit'),
         onTap: () {
           Navigator.popAndPushNamed(context, '/pdf_edit');
-        },
-      ),
-      GFListTile(
-        title: const Text('Tree Mockup'),
-        onTap: () {
-          Navigator.popAndPushNamed(context, '/tree_mockup');
         },
       ),
     ],
