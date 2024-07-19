@@ -10,10 +10,11 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:migra_chat/src/models/person.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:objectbox/internal.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart' show ByteData, rootBundle;
 
 // Defining the bot user
 const types.User botUser = types.User(
@@ -55,25 +56,31 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _initializeChatComponents() async {
-    // Load the MDB file from assets
-    final dbAsset = await rootBundle
-        .load('assets/resources/Federal/Legislation/objectbox/data.mdb');
-    final dbDir = await getApplicationDocumentsDirectory();
+    // Search and create db file destination folder if not exist
+    final documentsDirectory = await getApplicationDocumentsDirectory();
+    final objectBoxDirectory =
+        Directory('${documentsDirectory.path}/objectbox/');
 
-    // Write the MDB file to a directory
-    final dbFilePath = '${dbDir.path}/data.mdb';
-    final dbFile = File(dbFilePath);
-    await dbFile.writeAsBytes(dbAsset.buffer.asUint8List());
+    if (!objectBoxDirectory.existsSync()) {
+      await objectBoxDirectory.create(recursive: true);
+    }
+
+    final dbFile = File('${objectBoxDirectory.path}/data.mdb');
+    if (!dbFile.existsSync()) {
+      // Get pre-populated db file.
+      ByteData data = await rootBundle
+          .load("assets/resources/Federal/Legislation/objectbox/data.mdb");
+      // Copying source data into destination file.
+      await dbFile.writeAsBytes(data.buffer.asUint8List());
+    }
 
     // Initialize ObjectBoxVectorStore
     embeddings = OllamaEmbeddings(model: 'mxbai-embed-large');
     vectorStore = ObjectBoxVectorStore(
       embeddings: embeddings,
       dimensions: 1024,
-      directory: dbFilePath,
+      directory: objectBoxDirectory.path,
     );
-    retriever = vectorStore.asRetriever();
-
     chatModel = ChatOllama(
       defaultOptions: const ChatOllamaOptions(model: 'llama3:8b'),
     );
