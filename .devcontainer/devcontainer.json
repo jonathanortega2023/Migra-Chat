@@ -9,9 +9,5 @@
             "ms-python.python"
         ]
     },
-    // add "/usr/bin/android-sdk/platform-tools/adb" to the PATH
-    "runArgs": [
-        "--env",
-        "PATH=${env:PATH}:/usr/lib/android-sdk/platform-tools"
-    ]
+    "postStartCommand": "adb start-server"
 }
