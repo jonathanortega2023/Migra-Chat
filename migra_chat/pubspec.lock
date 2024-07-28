@@ -433,10 +433,10 @@ packages:
     dependency: "direct main"
     description:
       name: form_builder_validators
-      sha256: "475853a177bfc832ec12551f752fd0001278358a6d42d2364681ff15f48f67cf"
+      sha256: c61ed7b1deecf0e1ebe49e2fa79e3283937c5a21c7e48e3ed9856a4a14e1191a
       url: "https://pub.dev"
     source: hosted
-    version: "10.0.1"
+    version: "11.0.0"
   freezed_annotation:
     dependency: transitive
     description:
@@ -625,10 +625,10 @@ packages:
     dependency: "direct main"
     description:
       name: langchain_community
-      sha256: a4313911cf25ba018d745b631a5f9fdbe42f0895e399e158f60621308fada87b
+      sha256: "95239c608cf9a7513de475e655e5267ea726c0f9f8af0611a2361c406e4240ce"
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2"
+    version: "0.3.0"
   langchain_core:
     dependency: transitive
     description:
@@ -641,10 +641,10 @@ packages:
     dependency: "direct main"
     description:
       name: langchain_ollama
-      sha256: f9bdd5a905fb86f0b155ba50cd36484223821dbf969f35dc792b60dc1ee2b958
+      sha256: b0850674f16d2d731197a3c2b13445f8ac3fce8230c204100c19a11bb9d989a3
       url: "https://pub.dev"
     source: hosted
-    version: "0.2.2+1"
+    version: "0.3.0"
   langchain_tiktoken:
     dependency: transitive
     description:
@@ -777,10 +777,10 @@ packages:
     dependency: transitive
     description:
       name: ollama_dart
-      sha256: "760cc0d1d26bb957b9fd3bb31985ebbfab5598076670185405469ec2600a5439"
+      sha256: c0a86adb2343543f5597d182dc64b32beb46e6f2692dda27f82f9294db07dae4
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.2"
+    version: "0.2.0"
   package_config:
     dependency: transitive
     description:

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 // import 'package:flutter_gen/gen_l10n/app_localizations.dart' as AppLocalizations;
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:migra_chat/src/ui/chat/chat.dart';
 import 'package:migra_chat/src/ui/forms/forms.dart';
 import 'package:migra_chat/src/ui/forms/pdf_edit.dart';
@@ -87,7 +86,7 @@ class MyApp extends StatelessWidget {
           },
           routes: {
             '/intake': (context) => const SafeArea(child: UserIntake()),
-            '/family_tree': (context) => SafeArea(child: FamilyTree()),
+            '/family_tree': (context) => const SafeArea(child: FamilyTree()),
             '/landing': (context) => const SafeArea(child: LandingPage()),
             '/chat': (context) => const SafeArea(child: ChatPage()),
             '/forms': (context) => const SafeArea(child: FormsPage()),

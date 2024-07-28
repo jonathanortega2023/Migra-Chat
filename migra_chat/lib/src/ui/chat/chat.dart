@@ -9,9 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:migra_chat/src/models/person.dart';
-import 'package:objectbox/objectbox.dart';
-import 'package:objectbox/internal.dart';
-import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
@@ -56,16 +53,16 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Future<void> _initializeChatComponents() async {
-    // Search and create db file destination folder if not exist
-    final documentsDirectory = await getApplicationDocumentsDirectory();
-    final objectBoxDirectory =
-        Directory('${documentsDirectory.path}/objectbox/');
+// Search and create db file destination folder if not exist
+    final appDocDirectory = await getApplicationDocumentsDirectory();
+    final objectBoxDirectory = Directory('${appDocDirectory.path}/objectbox');
 
     if (!objectBoxDirectory.existsSync()) {
       await objectBoxDirectory.create(recursive: true);
     }
 
     final dbFile = File('${objectBoxDirectory.path}/data.mdb');
+
     if (!dbFile.existsSync()) {
       // Get pre-populated db file.
       ByteData data = await rootBundle
@@ -74,13 +71,14 @@ class _ChatPageState extends State<ChatPage> {
       await dbFile.writeAsBytes(data.buffer.asUint8List());
     }
 
-    // Initialize ObjectBoxVectorStore
+// Initialize ObjectBoxVectorStore
     embeddings = OllamaEmbeddings(model: 'mxbai-embed-large');
     vectorStore = ObjectBoxVectorStore(
       embeddings: embeddings,
       dimensions: 1024,
-      directory: objectBoxDirectory.path,
+      directory: dbFile.parent.path,
     );
+    retriever = vectorStore.asRetriever();
     chatModel = ChatOllama(
       defaultOptions: const ChatOllamaOptions(model: 'llama3:8b'),
     );

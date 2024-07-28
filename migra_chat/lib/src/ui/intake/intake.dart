@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:getwidget/getwidget.dart';
-import 'package:country_pickers/country_pickers.dart';
 import 'package:country_flags/country_flags.dart';
 import 'package:migra_chat/src/data/loaders.dart';
 import '../widgets.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import '../../models/person.dart';
-import '../../data/services.dart';
 
 // ignore: non_constant_identifier_names
 final Person ME = Person(
@@ -44,13 +42,13 @@ final nameValidators = FormBuilderValidators.compose([
   FormBuilderValidators.required(),
   FormBuilderValidators.minLength(2),
   FormBuilderValidators.maxLength(50),
-  FormBuilderValidators.match(r'^[a-zA-Z ]*$'),
+  FormBuilderValidators.match(RegExp(r'^[a-zA-Z ]*$')),
 ]);
 
 final zipValidators = FormBuilderValidators.compose([
   FormBuilderValidators.required(),
   FormBuilderValidators.equalLength(5),
-  FormBuilderValidators.match(r'^[0-9]*$'),
+  FormBuilderValidators.match(RegExp(r'^[0-9]*$')),
 ]);
 
 String _cleanString(String value) {
@@ -176,7 +174,7 @@ class _UserIntakeState extends State<UserIntake> {
                   child: Row(children: [
                 Flexible(
                   child: FormBuilderSwitch(
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         isDense: true,
                       ),
                       name: "us_living",

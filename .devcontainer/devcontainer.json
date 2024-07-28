@@ -1,13 +1,18 @@
 {
-    "name": "Flutter Dev Container",
-    "image": "jonathanortega2023/flutter_dev",
+    "name": "MigraChat Dev Container",
+    "image": "jonathanortega2023/flutter_dev:latest",
+    // TODO figure out why the fuck not working
     "customizations": {
-        "extensions": [
-            "dart-code.dart-code",
-            "dart-code.flutter",
-            "ms-toolsai.jupyter",
-            "ms-python.python"
-        ]
+        "vscode": {
+            "settings": {
+                "extensions.verifySignature": false
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter"
+            ]
+        }
     },
     "postStartCommand": "adb start-server"
 }

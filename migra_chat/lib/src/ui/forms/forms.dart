@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:getwidget/components/tabs/gf_segment_tabs.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:migra_chat/src/models/government_form.dart';
 import 'package:migra_chat/src/ui/widgets.dart';
@@ -46,17 +45,17 @@ class _FormsPageState extends State<FormsPage> with TickerProviderStateMixin {
             unselectedLabelStyle: const TextStyle(fontSize: 14),
             labelPadding: EdgeInsets.zero,
             border: Border.all(color: Colors.black, width: 0),
-            tabs: [
-              const Tab(
+            tabs: const [
+              Tab(
                 child: Text('TODO'),
               ),
-              const Tab(
+              Tab(
                 child: Text('Pending'),
               ),
-              const Tab(
+              Tab(
                 child: Text('Processed'),
               ),
-              const Tab(
+              Tab(
                 child: Text('All Forms'),
               ),
             ],
@@ -64,7 +63,7 @@ class _FormsPageState extends State<FormsPage> with TickerProviderStateMixin {
           ),
           // Accordion for category of document
           Expanded(
-            child: GFTabBarView(children: [
+            child: GFTabBarView(controller: _tabController, children: [
               Container(
                 color: Colors.yellow,
               ),
@@ -77,7 +76,7 @@ class _FormsPageState extends State<FormsPage> with TickerProviderStateMixin {
               Container(
                 color: Colors.green,
               )
-            ], controller: _tabController),
+            ]),
           )
         ],
       )),
@@ -161,7 +160,7 @@ class ProcessedFormTile extends StatelessWidget {
 }
 
 class FormCategoryAccordion extends StatelessWidget {
-  FormCategoryAccordion(
+  const FormCategoryAccordion(
       {super.key, required this.category, required this.forms});
 
   final String category;

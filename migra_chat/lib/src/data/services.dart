@@ -5,7 +5,7 @@ import 'package:csv/csv.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-final storage = const FlutterSecureStorage();
+const storage = FlutterSecureStorage();
 
 Future<List<List<dynamic>>> readCSV(String path, {String? eol = '\n'}) async {
   late String rawData;

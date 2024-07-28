@@ -10,6 +10,8 @@ final allPeople = getPeople();
 final allPeopleMap = getPeopleMap();
 
 class FamilyTree extends StatefulWidget {
+  const FamilyTree({super.key});
+
   @override
   _FamilyTreeState createState() => _FamilyTreeState();
 }

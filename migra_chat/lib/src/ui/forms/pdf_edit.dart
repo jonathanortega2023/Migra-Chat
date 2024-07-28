@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:migra_chat/src/ui/widgets.dart';
@@ -42,7 +41,7 @@ class _PDFEditPageState extends State<PDFEditPage> {
         appBar: AppBar(
           title: const Text('PDF Edit'),
         ),
-        drawer: AppDrawer(),
+        drawer: const AppDrawer(),
         body: Column(
           children: [
             ElevatedButton(
