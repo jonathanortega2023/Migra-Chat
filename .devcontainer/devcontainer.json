@@ -1,6 +1,9 @@
 {
     "name": "MigraChat Dev Container",
     "image": "jonathanortega2023/flutter_dev:latest",
+    "features": {
+        "ghcr.io/devcontainers/features/python:1": {}
+    },
     // TODO figure out why the fuck not working
     "customizations": {
         "vscode": {
@@ -14,5 +17,6 @@
             ]
         }
     },
+    "postCreateCommand": "python -m venv .venv && .venv/bin/pip install -r requirements.txt",
     "postStartCommand": "adb start-server"
 }
