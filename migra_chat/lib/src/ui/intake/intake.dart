@@ -70,7 +70,7 @@ class _UserIntakeState extends State<UserIntake> {
       body: FormBuilder(
           key: _formKey,
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.all(20.0),
             child: Column(children: <Widget>[
               Flexible(
                 child: Row(
@@ -82,7 +82,6 @@ class _UserIntakeState extends State<UserIntake> {
                         name: "first_name",
                         decoration: const InputDecoration(
                           labelText: "First Name",
-                          hintText: "John",
                           icon: Icon(Icons.person),
                         ),
                       ),
@@ -96,7 +95,6 @@ class _UserIntakeState extends State<UserIntake> {
                         name: "last_name",
                         decoration: const InputDecoration(
                           labelText: "Last Name",
-                          hintText: "Smith",
                         ),
                       ),
                     ),

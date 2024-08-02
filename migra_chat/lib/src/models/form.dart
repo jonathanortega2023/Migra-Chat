@@ -1,20 +1,23 @@
+// on modification, run command: `dart run build_runner build`
 import 'dart:html';
+import 'package:json_annotation/json_annotation.dart';
 
-class ImmigrationForm {
+@jsonSerializable
+class USCISForm {
   String formCategory;
-  String codeName;
-  String fullName;
+  String formNumber;
+  String formTitle;
   bool onlineFileable;
   String shortDescription;
   String longDescription;
   Url pageURL;
   Url documentURL;
-  Url? instructionsURL;
+  List<Map<String, Url>> relatedFormsFilenamesAndURLs;
 
-  ImmigrationForm({
+  USCISForm({
     required this.formCategory,
-    required this.codeName,
-    required this.fullName,
+    required this.formNumber,
+    required this.formTitle,
     required this.onlineFileable,
     required this.shortDescription,
     required this.longDescription,
@@ -22,8 +25,10 @@ class ImmigrationForm {
     required this.documentURL,
     this.instructionsURL,
   })  : assert(formCategory.trim().isNotEmpty),
-        assert(codeName.trim().isNotEmpty),
-        assert(fullName.trim().isNotEmpty),
+        assert(formNumber.trim().isNotEmpty),
+        assert(formTitle.trim().isNotEmpty),
         assert(shortDescription.trim().isNotEmpty),
         assert(longDescription.trim().isNotEmpty);
 }
+
+class USCISFormFeeSchedule {}

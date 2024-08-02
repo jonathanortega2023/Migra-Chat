@@ -5,6 +5,12 @@ Widget drawerList(context) {
   return ListView(
     children: [
       GFListTile(
+        title: const Text('Home'),
+        onTap: () {
+          Navigator.popAndPushNamed(context, '/home');
+        },
+      ),
+      GFListTile(
         title: const Text('Intake'),
         onTap: () {
           Navigator.popAndPushNamed(context, '/intake');

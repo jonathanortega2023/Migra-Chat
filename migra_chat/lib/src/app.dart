@@ -9,8 +9,9 @@ import 'sample_feature/sample_item_list_view.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 import '../src/ui/intake/intake.dart';
-import 'ui/family_tree/tree_testing.dart';
+import 'ui/family_tree/family_tree.dart';
 import 'ui/landing/landing.dart';
+import 'ui/home/home.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -86,6 +87,7 @@ class MyApp extends StatelessWidget {
           },
           routes: {
             '/intake': (context) => const SafeArea(child: UserIntake()),
+            '/home': (context) => const SafeArea(child: HomePage()),
             '/family_tree': (context) => const SafeArea(child: FamilyTree()),
             '/landing': (context) => const SafeArea(child: LandingPage()),
             '/chat': (context) => const SafeArea(child: ChatPage()),
