@@ -1,0 +1,212 @@
+{
+    "AR-11": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "EOIR-29": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 110,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-28": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-28I": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-325A": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-845": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-845 Supplement": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-884": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "G-1041": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 80,
+                    "description": "General filing fee for paper submission"
+                },
+                "online": {
+                    "amount": 30,
+                    "description": "General filing fee for online submission"
+                }
+            }
+        }
+    },
+    "G-1041A": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 80,
+                    "description": "General filing fee for paper submission"
+                },
+                "online": {
+                    "amount": 30,
+                    "description": "General filing fee for online submission"
+                }
+            }
+        }
+    },
+    "G-1145": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                },
+                "online": {
+                    "amount": 0,
+                    "description": "General filing fee for online submission"
+                }
+            }
+        }
+    },
+    "G-1450": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                },
+                "online": {
+                    "amount": 0,
+                    "description": "General filing fee for online submission"
+                }
+            }
+        }
+    },
+    "G-1566": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 330,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "I-9": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 0,
+                    "description": "General filing fee for paper submission"
+                }
+            }
+        }
+    },
+    "I-90": {
+        "condition": {
+            "general": {
+                "paper": {
+                    "amount": 465,
+                    "description": "General filing fee for paper submission"
+                },
+                "online": {
+                    "amount": 415,
+                    "description": "General filing fee for online submission"
+                }
+            },
+            "14 or older, card expires before age 16": {
+                "paper": {
+                    "amount": 465,
+                    "description": "Filing fee for paper submission under 14th birthday condition"
+                },
+                "online": {
+                    "amount": 415,
+                    "description": "Filing fee for online submission under 14th birthday condition"
+                }
+            },
+            "14 or older, card expires after age 16": {
+                "paper": {
+                    "amount": 0,
+                    "description": "No fee for paper submission under this condition"
+                },
+                "online": {
+                    "amount": 0,
+                    "description": "No fee for online submission under this condition"
+                }
+            },
+            "Never received previous card, returned as undeliverable": {
+                "paper": {
+                    "amount": 0,
+                    "description": "No fee for paper submission due to undelivered card"
+                },
+                "online": {
+                    "amount": 0,
+                    "description": "No fee for online submission due to undelivered card"
+                }
+            },
+            "DHS issued card with incorrect information": {
+                "paper": {
+                    "amount": 0,
+                    "description": "No fee for paper submission due to incorrect card information"
+                },
+                "online": {
+                    "amount": 0,
+                    "description": "No fee for online submission due to incorrect card information"
+                }
+            }
+        }
+    }
+}

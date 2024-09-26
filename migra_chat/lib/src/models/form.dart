@@ -12,7 +12,9 @@ class USCISForm {
   String longDescription;
   Url pageURL;
   Url documentURL;
-  List<Map<String, Url>> relatedFormsFilenamesAndURLs;
+  List<Map<String, Url>>? relatedFormsFilenamesAndURLs;
+  Url? instructionsURL;
+  USCISFormFee formFeeSchedule;
 
   USCISForm({
     required this.formCategory,
@@ -23,6 +25,8 @@ class USCISForm {
     required this.longDescription,
     required this.pageURL,
     required this.documentURL,
+    this.relatedFormsFilenamesAndURLs,
+    required this.formFeeSchedule,
     this.instructionsURL,
   })  : assert(formCategory.trim().isNotEmpty),
         assert(formNumber.trim().isNotEmpty),
@@ -31,4 +35,4 @@ class USCISForm {
         assert(longDescription.trim().isNotEmpty);
 }
 
-class USCISFormFeeSchedule {}
+class USCISFormFee {}
