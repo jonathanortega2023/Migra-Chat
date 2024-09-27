@@ -1,212 +1,218 @@
 {
     "AR-11": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "EOIR-29": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 110,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 110
         }
     },
     "G-28": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-28I": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-325A": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-845": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-845 Supplement": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-884": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-1041": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 80,
-                    "description": "General filing fee for paper submission"
-                },
-                "online": {
-                    "amount": 30,
-                    "description": "General filing fee for online submission"
-                }
-            }
+        "general": {
+            "paper": 80,
+            "online": 30
         }
     },
     "G-1041A": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 80,
-                    "description": "General filing fee for paper submission"
-                },
-                "online": {
-                    "amount": 30,
-                    "description": "General filing fee for online submission"
-                }
-            }
+        "general": {
+            "paper": 80,
+            "online": 30
         }
     },
     "G-1145": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                },
-                "online": {
-                    "amount": 0,
-                    "description": "General filing fee for online submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-1450": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                },
-                "online": {
-                    "amount": 0,
-                    "description": "General filing fee for online submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "G-1566": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 330,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 330
         }
     },
     "I-9": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 0,
-                    "description": "General filing fee for paper submission"
-                }
-            }
+        "general": {
+            "paper": 0
         }
     },
     "I-90": {
-        "condition": {
-            "general": {
-                "paper": {
-                    "amount": 465,
-                    "description": "General filing fee for paper submission"
+        "general": {
+            "paper": 455,
+            "online": 410
+        },
+        "conditions": [
+            {
+                "description": "If you have reached your 14th birthday and your existing card will expire before your 16th birthday.",
+                "criteria": {
+                    "age": {
+                        "min": 14,
+                        "max": 16
+                    },
+                    "expiration": {
+                        "before": 16
+                    }
                 },
-                "online": {
-                    "amount": 415,
-                    "description": "General filing fee for online submission"
+                "cost": {
+                    "paper": 465,
+                    "online": 415
                 }
             },
-            "14 or older, card expires before age 16": {
-                "paper": {
-                    "amount": 465,
-                    "description": "Filing fee for paper submission under 14th birthday condition"
+            {
+                "description": "If you have reached your 14th birthday, and your existing card will expire after your 16th birthday.",
+                "criteria": {
+                    "age": {
+                        "min": 14,
+                        "max": null
+                    },
+                    "expiration": {
+                        "after": 15
+                    }
                 },
-                "online": {
-                    "amount": 415,
-                    "description": "Filing fee for online submission under 14th birthday condition"
+                "cost": {
+                    "paper": 0,
+                    "online": 0
                 }
             },
-            "14 or older, card expires after age 16": {
-                "paper": {
-                    "amount": 0,
-                    "description": "No fee for paper submission under this condition"
+            {
+                "description": "If you are filing because we issued your previous card, but you never received it, and it was returned as undeliverable to USCIS.",
+                "criteria": {
+                    "undeliverable": true
                 },
-                "online": {
-                    "amount": 0,
-                    "description": "No fee for online submission under this condition"
+                "cost": {
+                    "paper": 0,
+                    "online": 0
                 }
             },
-            "Never received previous card, returned as undeliverable": {
-                "paper": {
-                    "amount": 0,
-                    "description": "No fee for paper submission due to undelivered card"
+            {
+                "description": "If you are filing because we issued the card with incorrect information because of a Department of Homeland Security (DHS) error.",
+                "criteria": {
+                    "error": true
                 },
-                "online": {
-                    "amount": 0,
-                    "description": "No fee for online submission due to undelivered card"
-                }
-            },
-            "DHS issued card with incorrect information": {
-                "paper": {
-                    "amount": 0,
-                    "description": "No fee for paper submission due to incorrect card information"
-                },
-                "online": {
-                    "amount": 0,
-                    "description": "No fee for online submission due to incorrect card information"
+                "cost": {
+                    "paper": 0,
+                    "online": 0
                 }
             }
-        }
+        ]
+    },
+    "I-102": {
+        "general": {
+            "paper": 560,
+            "online": 0
+        },
+        "conditions": [
+            {
+                // TODO What the fuck
+                "description": "If you are filing to correct your Form I-94, I-94W, or Form I-95 through no fault of your own and you were admitted to the United States by U.S. Customs and Border Protection (CBP) at an airport or seaport after April 30, 2013 and were issued an electronic Form I-94 by CBP, or you require a replacement paper Form I-94 issued by CBP, and you cannot obtain your Form I-94 from the CBP website.",
+                "criteria": {
+                    "admitted": "CBP",
+                    "date": "after April 30, 2013",
+                    "form": [
+                        "I-94",
+                        "I-94W",
+                        "I-95"
+                    ],
+                    "electronic": true
+                },
+                "cost": {
+                    "paper": 560,
+                    "online": 0
+                }
+            },
+            {
+                "description": "If you are filing as a nonimmigrant member of the U.S. armed forces for the first time.",
+                "criteria": {
+                    "USArmedForces": true,
+                    "firstTimeFiling": true
+                },
+                "cost": {
+                    "paper": 0
+                }
+            },
+            {
+                "description": "If you are filing subsequent requests as a nonimmigrant member of the U.S. armed forces.",
+                "criteria": {
+                    "USArmedForces": true,
+                    "firstTimeFiling": false
+                },
+                "cost": {
+                    "paper": 560
+                }
+            },
+            {
+                "description": "If you are filing as a participant in a North Atlantic Treaty Organization (NATO) armed forces or civil component for the first time.",
+                "criteria": {
+                    "NATO": true,
+                    "firstTimeFiling": true
+                },
+                "cost": {
+                    "paper": 0
+                }
+            },
+            {
+                "description": "If you are filing subsequent requests as a participant in a North Atlantic Treaty Organization (NATO) armed forces or civil component.",
+                "criteria": {
+                    "NATO": true,
+                    "firstTimeFiling": false
+                },
+                "cost": {
+                    "paper": 560
+                }
+            },
+            {
+                "description": "If you are filing as a nonimmigrant member of the Partnership for Peace military program under the Status of Forces Agreement (SOFA).",
+                "criteria": {
+                    "SOFA": true
+                },
+                "cost": {
+                    "paper": 0
+                }
+            },
+            {
+                "description": "If you are filing for a replacement for DHS error.",
+                "criteria": {
+                    "error": true
+                },
+                "cost": {
+                    "paper": 0
+                }
+            }
+        ]
     }
 }
